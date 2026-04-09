@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LevelUp IA — CRM</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0f0f0f;--bg2:#161616;--bg3:#1e1e1e;--bg4:#252525;
+  --border:#2a2a2a;--border2:#333;
+  --text:#f0f0f0;--text2:#a0a0a0;--text3:#666;
+  --purple:#a78bfa;--purple-bg:#1a1730;--purple-dim:#7c3aed22;
+  --teal:#34d399;--teal-bg:#0d2420;
+  --amber:#fbbf24;--amber-bg:#1f1a0a;
+  --red:#f87171;--red-bg:#1f0f0f;
+  --blue:#60a5fa;--blue-bg:#0d1a2e;
+  --green:#86efac;--green-bg:#0a1f12;
+  --radius:10px;--radius-lg:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh}
+.layout{display:flex;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{width:220px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
+.logo{padding:1.5rem 1.25rem 1rem;border-bottom:1px solid var(--border)}
+.logo-name{font-size:15px;font-weight:600;letter-spacing:-.02em}
+.logo-tag{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:2px}
+.nav{padding:.75rem 0;flex:1}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 1.25rem;cursor:pointer;color:var(--text2);font-size:13px;transition:all .15s;border-left:2px solid transparent}
+.nav-item:hover{background:var(--bg3);color:var(--text)}
+.nav-item.active{background:var(--purple-dim);color:var(--purple);border-left-color:var(--purple);font-weight:500}
+.nav-icon{width:16px;height:16px;opacity:.7}
+.nav-section{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;padding:1rem 1.25rem .4rem;font-weight:500}
+.sidebar-bottom{padding:1rem 1.25rem;border-top:1px solid var(--border)}
+.version{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{height:56px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 1.5rem;gap:12px;flex-shrink:0}
+.topbar-title{font-size:15px;font-weight:500;flex:1}
+.topbar-badge{background:var(--purple-dim);color:var(--purple);font-size:11px;padding:3px 10px;border-radius:99px;font-weight:500}
+.content{flex:1;overflow-y:auto;padding:1.5rem}
+
+/* SECTIONS */
+.section{display:none}.section.active{display:block}
+
+/* METRICS */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
+.metric{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:1rem}
+.metric-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.metric-val{font-size:22px;font-weight:600;letter-spacing:-.02em}
+.metric-sub{font-size:11px;color:var(--text2);margin-top:3px}
+.metric-val.green{color:var(--teal)}.metric-val.red{color:var(--red)}.metric-val.purple{color:var(--purple)}.metric-val.amber{color:var(--amber)}
+
+/* CARDS */
+.card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:12px}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.card-title{font-weight:500;font-size:14px}
+.card:hover{border-color:var(--border2)}
+
+/* BADGES */
+.badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:500;font-family:'DM Mono',monospace}
+.badge-active{background:var(--teal-bg);color:var(--teal)}
+.badge-pipeline{background:var(--amber-bg);color:var(--amber)}
+.badge-pausado{background:var(--bg4);color:var(--text3)}
+.badge-ia{background:var(--purple-bg);color:var(--purple)}
+.badge-ads{background:var(--amber-bg);color:var(--amber)}
+.badge-alta{background:var(--red-bg);color:var(--red)}
+.badge-media{background:var(--amber-bg);color:var(--amber)}
+.badge-baja{background:var(--bg4);color:var(--text3)}
+
+/* AVATAR */
+.avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:12px;flex-shrink:0;font-family:'DM Mono',monospace}
+.av-p{background:var(--purple-bg);color:var(--purple)}
+.av-j{background:var(--teal-bg);color:var(--teal)}
+.av-m{background:var(--amber-bg);color:var(--amber)}
+.av-a{background:var(--red-bg);color:var(--red)}
+.av-d{background:var(--blue-bg);color:var(--blue)}
+.av-e{background:var(--green-bg);color:var(--green)}
+
+/* TABLE */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;color:var(--text3);font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;border-bottom:1px solid var(--border);font-weight:500}
+td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--bg4)}
+
+/* GRID */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+
+/* SECTION HEADER */
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.sec-title{font-size:16px;font-weight:500}
+.sec-sub{font-size:12px;color:var(--text3);margin-top:2px}
+
+/* SLABEL */
+.slabel{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;font-weight:500;margin-bottom:8px}
+
+/* BTN */
+button{background:transparent;border:1px solid var(--border2);color:var(--text);padding:7px 14px;border-radius:var(--radius);cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;transition:all .15s}
+button:hover{background:var(--bg4);border-color:var(--text3)}
+button.primary{background:var(--purple-dim);border-color:var(--purple);color:var(--purple)}
+button.primary:hover{background:#2a1f5e}
+
+/* FORM */
+.form-group{margin-bottom:12px}
+.form-group label{display:block;font-size:12px;color:var(--text2);margin-bottom:5px}
+input[type=text],input[type=number],input[type=date],select,textarea{background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:7px 10px;border-radius:var(--radius);font-size:13px;font-family:'DM Sans',sans-serif;width:100%;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--purple)}
+select option{background:var(--bg4)}
+
+/* PIPELINE */
+.kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.kanban-col{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-lg);padding:.75rem}
+.kanban-col-header{font-size:12px;font-weight:500;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
+.kanban-count{background:var(--bg4);color:var(--text3);font-size:11px;padding:1px 7px;border-radius:99px}
+.kanban-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:.75rem;margin-bottom:8px;cursor:pointer}
+.kanban-card:hover{border-color:var(--border2)}
+.kanban-card-name{font-weight:500;font-size:13px;margin-bottom:3px}
+.kanban-card-sub{font-size:11px;color:var(--text2)}
+.kanban-card-footer{display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--text3)}
+
+/* CHAT */
+.chat-container{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.chat-msgs{padding:1.25rem;min-height:180px;max-height:360px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
+.msg{max-width:82%;padding:10px 14px;border-radius:12px;font-size:13px;line-height:1.6;white-space:pre-wrap}
+.msg-user{background:var(--purple-dim);border:1px solid var(--purple);color:var(--text);align-self:flex-end;border-bottom-right-radius:3px}
+.msg-ai{background:var(--bg4);border:1px solid var(--border2);color:var(--text);align-self:flex-start;border-bottom-left-radius:3px}
+.msg-ai .msg-tag{font-size:10px;color:var(--purple);font-family:'DM Mono',monospace;margin-bottom:4px;font-weight:500}
+.chat-input-area{display:flex;gap:8px;padding:1rem;border-top:1px solid var(--border);background:var(--bg2)}
+.chat-input-area input{flex:1;font-size:13px}
+.chat-input-area button{padding:7px 16px;white-space:nowrap}
+
+/* PROGRESS */
+.progress{background:var(--bg4);border-radius:99px;height:4px;margin-top:8px;overflow:hidden}
+.progress-fill{height:4px;border-radius:99px;background:linear-gradient(90deg,var(--purple),var(--teal));transition:width .4s}
+
+/* ROW */
+.row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.row:last-child{border-bottom:none}
+.row-name{font-weight:500;font-size:13px}
+.row-sub{font-size:12px;color:var(--text2)}
+.row-right{margin-left:auto;text-align:right}
+
+/* CHECKBOX */
+input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--purple)}
+
+/* TEAM CARD */
+.team-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem;display:flex;gap:12px}
+.team-card:hover{border-color:var(--border2)}
+.team-name{font-weight:500;font-size:13px;margin-bottom:2px}
+.team-role{font-size:12px;color:var(--text2);margin-bottom:8px}
+.team-stat{font-size:11px;color:var(--text3);margin-bottom:2px}
+.team-stat span{color:var(--text);font-weight:500}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:1.5rem;width:420px;max-height:80vh;overflow-y:auto}
+.modal-title{font-size:15px;font-weight:500;margin-bottom:1.25rem}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px}
+
+/* CALC RESULT */
+.calc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:12px}
+.calc-item{background:var(--bg4);border:1px solid var(--border);border-radius:var(--radius);padding:.6rem .75rem}
+.calc-item .lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.calc-item .val{font-size:15px;font-weight:600;font-family:'DM Mono',monospace}
+.calc-item.empresa .val{color:var(--teal)}
+.calc-item.tecnico .val{color:var(--blue)}
+
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dot-alta{background:var(--red)}
+.dot-media{background:var(--amber)}
+.dot-baja{background:var(--text3)}
+
+.sep{height:1px;background:var(--border);margin:1rem 0}
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-name">LevelUp IA</div>
+      <div class="logo-tag">CRM v1.0</div>
+    </div>
+    <nav class="nav">
+      <div class="nav-section">Principal</div>
+      <div class="nav-item active" onclick="showTab('dashboard',this)"><span>◈</span> Dashboard</div>
+      <div class="nav-item" onclick="showTab('clientes',this)"><span>◉</span> Clientes</div>
+      <div class="nav-item" onclick="showTab('pipeline',this)"><span>◧</span> Pipeline</div>
+      <div class="nav-section">Gestión</div>
+      <div class="nav-item" onclick="showTab('equipo',this)"><span>◎</span> Equipo</div>
+      <div class="nav-item" onclick="showTab('comisiones',this)"><span>◈</span> Comisiones</div>
+      <div class="nav-item" onclick="showTab('tareas',this)"><span>◻</span> Tareas</div>
+      <div class="nav-section">Finanzas</div>
+      <div class="nav-item" onclick="showTab('financiero',this)"><span>◆</span> Financiero</div>
+      <div class="nav-section">IA</div>
+      <div class="nav-item" onclick="showTab('asistente',this)"><span>◈</span> Asistente</div>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="version">levelupia.crm · 2025</div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title" id="topbar-title">Dashboard</div>
+      <span class="topbar-badge" id="topbar-badge">Vista general</span>
+      <button class="primary" onclick="showTab('asistente',null)">+ Asistente IA</button>
+    </div>
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div id="sec-dashboard" class="section active">
+        <div class="metrics" id="dash-metrics"></div>
+        <div class="grid2">
+          <div>
+            <div class="slabel">Clientes activos</div>
+            <div class="card" id="dash-clientes"></div>
+          </div>
+          <div>
+            <div class="slabel">Tareas urgentes</div>
+            <div class="card" id="dash-tareas"></div>
+            <div class="slabel" style="margin-top:1rem">Facturacion recurrente</div>
+            <div class="card" id="dash-fact"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CLIENTES -->
+      <div id="sec-clientes" class="section">
+        <div class="sec-header">
+          <div><div class="sec-title">Clientes</div><div class="sec-sub" id="cli-count"></div></div>
+          <button class="primary" onclick="openModal('cliente')">+ Nuevo cliente</button>
+        </div>
+        <div id="lista-clientes"></div>
+      </div>
+
+      <!-- PIPELINE -->
+      <div id="sec-pipeline" class="section">
+        <div class="sec-header">
+          <div><div class="sec-title">Pipeline</div><div class="sec-sub">Prospectos en proceso</div></div>
+          <button class="primary" onclick="openModal('pipeline')">+ Nuevo prospecto</button>
+        </div>
+        <div class="kanban" id="kanban"></div>
+      </div>
+
+      <!-- EQUIPO -->
+      <div id="sec-equipo" class="section">
+        <div class="slabel">Socios fundadores</div>
+        <div class="grid2" id="eq-socios" style="margin-bottom:1.5rem"></div>
+        <div class="slabel">Equipo comercial</div>
+        <div class="grid3" id="eq-setters" style="margin-bottom:1.5rem"></div>
+        <div class="slabel">Colaboradores externos</div>
+        <div class="grid2" id="eq-colab"></div>
+      </div>
+
+      <!-- COMISIONES -->
+      <div id="sec-comisiones" class="section">
+        <div class="slabel">Estructura vigente</div>
+        <div class="card" style="margin-bottom:1rem">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Quien</th><th>%</th><th>Base</th><th>Aplica</th></tr></thead>
+              <tbody>
+                <tr><td>Empresa</td><td style="color:var(--teal);font-family:'DM Mono',monospace">25%</td><td>Resto tras David/Edu</td><td>Siempre</td></tr>
+                <tr><td>Pedro</td><td style="color:var(--purple);font-family:'DM Mono',monospace">13%</td><td>Resto</td><td>Toda la facturacion</td></tr>
+                <tr><td>Josemi</td><td style="color:var(--purple);font-family:'DM Mono',monospace">13%</td><td>Resto</td><td>Toda la facturacion</td></tr>
+                <tr><td>Markel</td><td style="color:var(--purple);font-family:'DM Mono',monospace">11.5%</td><td>Resto</td><td>Toda la facturacion</td></tr>
+                <tr><td>Adri</td><td style="color:var(--purple);font-family:'DM Mono',monospace">11.5%</td><td>Resto</td><td>Toda la facturacion</td></tr>
+                <tr><td>Closer</td><td style="font-family:'DM Mono',monospace">10%</td><td>Resto</td><td>Setup + retencion sus clientes</td></tr>
+                <tr><td>Setter</td><td style="font-family:'DM Mono',monospace">10%</td><td>Resto</td><td>Setup + retencion sus clientes</td></tr>
+                <tr><td>Pool / 6</td><td style="font-family:'DM Mono',monospace">6%</td><td>Resto</td><td>Toda la facturacion</td></tr>
+                <tr><td>David</td><td style="color:var(--blue);font-family:'DM Mono',monospace">30%</td><td>Bruto IA</td><td>Antes del reparto</td></tr>
+                <tr><td>Edu</td><td style="color:var(--green);font-family:'DM Mono',monospace">600/700€</td><td>Fijo por cliente</td><td>Mayo-Jun / Jul+</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="slabel">Calculadora</div>
+        <div class="card">
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <div class="form-group" style="margin:0"><label>Tipo</label><select id="calc-tipo" onchange="calcComision()" style="width:160px"><option value="ia-setup">IA Setup</option><option value="ia-ret">IA Retencion</option><option value="ads">Ads</option></select></div>
+            <div class="form-group" style="margin:0"><label>Escala</label><select id="calc-escala" onchange="calcComision()" style="width:120px"><option>1</option><option>2</option><option>3</option><option>4</option></select></div>
+            <div class="form-group" style="margin:0"><label>Periodo</label><select id="calc-mes" onchange="calcComision()" style="width:140px"><option value="mayo">Mayo-Junio</option><option value="julio">Julio+</option></select></div>
+          </div>
+          <div id="calc-result"></div>
+        </div>
+        <div class="sep"></div>
+        <div class="slabel">Escalado setter</div>
+        <div class="card">
+          <table><thead><tr><th>Ventas/mes</th><th>% Setter</th></tr></thead>
+          <tbody>
+            <tr><td>1 a 6</td><td style="color:var(--text);font-family:'DM Mono',monospace">10%</td></tr>
+            <tr><td>7 a 14</td><td style="color:var(--amber);font-family:'DM Mono',monospace">11%</td></tr>
+            <tr><td>15+</td><td style="color:var(--teal);font-family:'DM Mono',monospace">12%</td></tr>
+          </tbody></table>
+        </div>
+      </div>
+
+      <!-- TAREAS -->
+      <div id="sec-tareas" class="section">
+        <div class="sec-header">
+          <div><div class="sec-title">Tareas</div><div class="sec-sub" id="task-count"></div></div>
+          <button class="primary" onclick="openModal('tarea')">+ Nueva tarea</button>
+        </div>
+        <div id="lista-tareas"></div>
+      </div>
+
+      <!-- FINANCIERO -->
+      <div id="sec-financiero" class="section">
+        <div class="metrics" id="fin-metrics"></div>
+        <div class="grid2">
+          <div>
+            <div class="slabel">Costes fijos mensuales</div>
+            <div class="card">
+              <table><thead><tr><th>Concepto</th><th>Antes SL</th><th>Desde julio</th></tr></thead>
+              <tbody>
+                <tr><td>SS autonomos x4</td><td style="color:var(--text3)">—</td><td>1.280€</td></tr>
+                <tr><td>n8n + OpenAI</td><td>20€</td><td>20€</td></tr>
+                <tr><td>ManyChat + CRM</td><td>35€</td><td>35€</td></tr>
+                <tr><td>Workspace + Scraping</td><td>68€</td><td>68€</td></tr>
+                <tr><td>Gestoria</td><td style="color:var(--text3)">—</td><td>125€</td></tr>
+                <tr><td>Anuncios + web</td><td>310€</td><td>310€</td></tr>
+                <tr><td>Imprevistos</td><td>50€</td><td>50€</td></tr>
+                <tr><td style="font-weight:600">Total</td><td style="font-weight:600;color:var(--amber)">483€</td><td style="font-weight:600;color:var(--red)">1.888€</td></tr>
+              </tbody></table>
+            </div>
+          </div>
+          <div>
+            <div class="slabel">Proyeccion 6 meses</div>
+            <div class="card">
+              <div id="proy-table"></div>
+            </div>
+            <div class="slabel" style="margin-top:1rem">Inversion socios</div>
+            <div class="card">
+              <table><thead><tr><th>Fecha</th><th>c/socio</th><th>Total</th></tr></thead>
+              <tbody>
+                <tr><td>20 abril</td><td>200€</td><td>800€</td></tr>
+                <tr><td>20 mayo</td><td>200€</td><td>800€</td></tr>
+                <tr><td>Junio SL</td><td>1.500€</td><td>6.000€</td></tr>
+                <tr><td style="font-weight:600">Total</td><td style="font-weight:600">1.900€</td><td style="font-weight:600;color:var(--purple)">7.600€</td></tr>
+              </tbody></table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ASISTENTE -->
+      <div id="sec-asistente" class="section">
+        <div class="sec-header"><div class="sec-title">Asistente IA</div></div>
+        <div class="card" style="margin-bottom:12px;background:var(--purple-bg);border-color:var(--purple)">
+          <div style="font-size:12px;color:var(--text2);line-height:1.7">
+            Ejemplos: <code style="color:var(--purple)">"Añade cliente Diego, fisio, IA escala 1, cerrado por Pedro"</code> — <code style="color:var(--purple)">"Nueva tarea: llamar a Iker, responsable Josemi, urgente"</code> — <code style="color:var(--purple)">"Marca tarea de scraping como completada"</code> — <code style="color:var(--purple)">"Cuantos clientes tenemos"</code>
+          </div>
+        </div>
+        <div class="chat-container">
+          <div class="chat-msgs" id="chat-msgs">
+            <div class="msg msg-ai"><div class="msg-tag">LEVELUP IA ASSISTANT</div>Hola Josemi. Soy el asistente del CRM. Puedo modificar clientes, tareas, pipeline y equipo con texto natural. Que necesitas?</div>
+          </div>
+          <div class="chat-input-area">
+            <input type="text" id="chat-input" placeholder="Escribe tu instruccion..." onkeydown="if(event.key==='Enter')enviarChat()">
+            <button class="primary" onclick="enviarChat()">Enviar</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modal-cliente">
+  <div class="modal">
+    <div class="modal-title">Nuevo cliente</div>
+    <div class="form-group"><label>Nombre</label><input type="text" id="f-nombre"></div>
+    <div class="form-group"><label>Sector</label><input type="text" id="f-sector"></div>
+    <div class="form-group"><label>Servicio</label><select id="f-servicio"><option value="ia">Agente IA</option><option value="ads">Marca y Ads</option></select></div>
+    <div class="form-group"><label>Escala IA (1-4)</label><select id="f-escala"><option>1</option><option>2</option><option>3</option><option>4</option></select></div>
+    <div class="form-group"><label>Setter</label><input type="text" id="f-setter" value="Pedro"></div>
+    <div class="form-group"><label>Closer</label><input type="text" id="f-closer" value="Adri"></div>
+    <div class="form-group"><label>Cerrado por</label><input type="text" id="f-cerrado" value="Pedro"></div>
+    <div class="form-group"><label>Fecha inicio</label><input type="date" id="f-fecha"></div>
+    <div class="form-group"><label>Notas</label><textarea id="f-notas" rows="2"></textarea></div>
+    <div class="modal-footer">
+      <button onclick="closeModal('cliente')">Cancelar</button>
+      <button class="primary" onclick="guardarCliente()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-tarea">
+  <div class="modal">
+    <div class="modal-title">Nueva tarea</div>
+    <div class="form-group"><label>Titulo</label><input type="text" id="t-titulo"></div>
+    <div class="form-group"><label>Responsable</label><input type="text" id="t-resp" value="Josemi"></div>
+    <div class="form-group"><label>Prioridad</label><select id="t-prio"><option value="alta">Alta</option><option value="media">Media</option><option value="baja">Baja</option></select></div>
+    <div class="form-group"><label>Fecha limite</label><input type="date" id="t-fecha"></div>
+    <div class="modal-footer">
+      <button onclick="closeModal('tarea')">Cancelar</button>
+      <button class="primary" onclick="guardarTarea()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-pipeline">
+  <div class="modal">
+    <div class="modal-title">Nuevo prospecto</div>
+    <div class="form-group"><label>Nombre</label><input type="text" id="p-nombre"></div>
+    <div class="form-group"><label>Sector</label><input type="text" id="p-sector"></div>
+    <div class="form-group"><label>Valor estimado (€)</label><input type="number" id="p-valor" value="1300"></div>
+    <div class="form-group"><label>Fase</label><select id="p-fase"><option value="contacto">Contacto</option><option value="reunion">Reunion</option><option value="cierre">En cierre</option><option value="ganado">Ganado</option></select></div>
+    <div class="form-group"><label>Responsable</label><input type="text" id="p-resp" value="Pedro"></div>
+    <div class="form-group"><label>Notas</label><textarea id="p-notas" rows="2"></textarea></div>
+    <div class="modal-footer">
+      <button onclick="closeModal('pipeline')">Cancelar</button>
+      <button class="primary" onclick="guardarPipeline()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SETUPS=[1300,1600,1900,2200];
+const RETS=[860,1160,1460,2000];
+const fmt=n=>Math.round(n).toLocaleString('es-ES')+'€';
+const today=new Date().toISOString().split('T')[0];
+
+let state={
+  clientes:[
+    {id:1,nombre:'Diego',sector:'Entrenador personal',servicio:'ia',escala:1,estado:'activo',fechaInicio:'2025-04-01',setter:'Pedro',closer:'Adri',cerradoPor:'Pedro',notas:'Caso de exito. 50k€/mes facturacion tras implementacion.'},
+    {id:2,nombre:'Jordi',sector:'Clinica estetica',servicio:'ia',escala:1,estado:'activo',fechaInicio:'2025-04-05',setter:'Pedro',closer:'Adri',cerradoPor:'Pedro',notas:'Agente Instagram basico. Agendamiento automatico.'},
+    {id:3,nombre:'Concesionario Pusher',sector:'Automocion',servicio:'ads',escala:0,estado:'activo',fechaInicio:'2025-04-08',setter:'Pedro',closer:'Adri',cerradoPor:'Pedro',notas:'Primer cliente Ads.'},
+  ],
+  equipo:[
+    {id:1,nombre:'Pedro',rol:'Lider marca y negocio',tipo:'socio',pct:25,av:'av-p',ini:'P',ventas:3,clientes:3},
+    {id:2,nombre:'Josemi',rol:'Direccion de operaciones',tipo:'socio',pct:25,av:'av-j',ini:'J',ventas:0,clientes:0},
+    {id:3,nombre:'Markel',rol:'Direccion de ventas',tipo:'socio',pct:25,av:'av-m',ini:'M',ventas:1,clientes:1},
+    {id:4,nombre:'Adri',rol:'Closer y formacion',tipo:'socio',pct:25,av:'av-a',ini:'A',ventas:3,clientes:3},
+    {id:5,nombre:'David',rol:'Tecnico IA',tipo:'colab',av:'av-d',ini:'D',clientes:2,tarifa:'30% bruto IA'},
+    {id:6,nombre:'Edu',rol:'Filmmaking + Ads',tipo:'colab',av:'av-e',ini:'E',clientes:1,tarifa:'600€/cliente'},
+    {id:7,nombre:'Juan',rol:'Setter',tipo:'setter',av:'av-p',ini:'Ju',ventas:0},
+    {id:8,nombre:'Mario',rol:'Setter / Jefe equipo',tipo:'setter',av:'av-m',ini:'Ma',ventas:0},
+    {id:9,nombre:'Marisol',rol:'Setter / Jefa equipo',tipo:'setter',av:'av-a',ini:'Ms',ventas:0},
+  ],
+  tareas:[
+    {id:1,titulo:'Consultar denominacion LevelUpIA en rmc.es',resp:'Josemi',prio:'alta',estado:'pendiente',fecha:'2025-04-10'},
+    {id:2,titulo:'Alta Hacienda modelo 036 x4 socios',resp:'Josemi',prio:'alta',estado:'pendiente',fecha:'2025-04-12'},
+    {id:3,titulo:'Comunicar salida a Iker',resp:'Josemi',prio:'alta',estado:'pendiente',fecha:'2025-04-10'},
+    {id:4,titulo:'Llamada con Roman - pacto de socios',resp:'Josemi',prio:'alta',estado:'pendiente',fecha:'2025-04-11'},
+    {id:5,titulo:'Scraping leads Instagram + Google',resp:'Josemi',prio:'alta',estado:'pendiente',fecha:'2025-04-13'},
+    {id:6,titulo:'Grabar contenido marca personal con Edu',resp:'Pedro',prio:'alta',estado:'pendiente',fecha:'2025-04-13'},
+    {id:7,titulo:'Grupo WhatsApp equipo comercial',resp:'Markel',prio:'media',estado:'pendiente',fecha:'2025-04-11'},
+    {id:8,titulo:'Hablar con Mario - estructura',resp:'Markel',prio:'media',estado:'pendiente',fecha:'2025-04-10'},
+    {id:9,titulo:'Hablar con Marisol - estructura',resp:'Markel',prio:'media',estado:'pendiente',fecha:'2025-04-10'},
+    {id:10,titulo:'Cuenta conjunta + 200€ cada socio',resp:'Todos',prio:'media',estado:'pendiente',fecha:'2025-04-20'},
+    {id:11,titulo:'Buscar agencia ads Tarragona',resp:'Josemi',prio:'baja',estado:'pendiente',fecha:'2025-04-18'},
+    {id:12,titulo:'Visita concesionario furgonetas',resp:'Pedro',prio:'alta',estado:'pendiente',fecha:'2025-04-12'},
+  ],
+  pipeline:[
+    {id:1,nombre:'Concesionario furgonetas',sector:'Automocion',valor:1300,fase:'reunion',resp:'Pedro',notas:'Visita fin de semana con dossier'},
+    {id:2,nombre:'Fisio Hector',sector:'Fisioterapia',valor:1200,fase:'cierre',resp:'Adri',notas:'Reunion cierre pendiente'},
+    {id:3,nombre:'Ilian fisio',sector:'Fisioterapia',valor:1300,fase:'contacto',resp:'Pedro',notas:'Lead de Pedro'},
+  ]
+};
+
+function calcIA(precio){
+  const david=precio*0.30,resto=precio-david;
+  return{david,resto,emp:resto*0.25,pedro:resto*0.13,josemi:resto*0.13,markel:resto*0.115,adri:resto*0.115,closer:resto*0.10,setter:resto*0.10,pool:resto*0.06};
+}
+
+const TABS={dashboard:'Dashboard',clientes:'Clientes',pipeline:'Pipeline',equipo:'Equipo',comisiones:'Comisiones',tareas:'Tareas',financiero:'Financiero',asistente:'Asistente IA'};
+const BADGES={dashboard:'Vista general',clientes:'Gestion de clientes',pipeline:'Prospectos',equipo:'Estructura del equipo',comisiones:'Estructura y calculadora',tareas:'Lista de tareas',financiero:'Finanzas y proyeccion',asistente:'Modificar CRM con IA'};
+
+function showTab(id,el){
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  if(el)el.classList.add('active');
+  else{document.querySelectorAll('.nav-item').forEach(n=>{if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+id+"'"))n.classList.add('active');});}
+  document.getElementById('topbar-title').textContent=TABS[id]||id;
+  document.getElementById('topbar-badge').textContent=BADGES[id]||'';
+  renderSection(id);
+}
+
+function renderSection(id){
+  const r={dashboard:renderDashboard,clientes:renderClientes,pipeline:renderPipeline,equipo:renderEquipo,financiero:renderFinanciero,tareas:renderTareas,comisiones:calcComision};
+  if(r[id])r[id]();
+}
+
+function renderDashboard(){
+  const activos=state.clientes.filter(c=>c.estado==='activo');
+  const ia=activos.filter(c=>c.servicio==='ia');
+  const ads=activos.filter(c=>c.servicio==='ads');
+  const factTotal=ia.reduce((s,c)=>s+(RETS[c.escala-1]||0),0)+ads.length*1200;
+  const empTotal=ia.reduce((s,c)=>s+calcIA(RETS[c.escala-1]||860).emp,0)+ads.length*600*0.25;
+  const pend=state.tareas.filter(t=>t.estado==='pendiente');
+  document.getElementById('dash-metrics').innerHTML=`
+    <div class="metric"><div class="metric-label">Clientes activos</div><div class="metric-val purple">${activos.length}</div><div class="metric-sub">${ia.length} IA · ${ads.length} Ads</div></div>
+    <div class="metric"><div class="metric-label">Facturacion/mes</div><div class="metric-val">${fmt(factTotal)}</div><div class="metric-sub">recurrente estimada</div></div>
+    <div class="metric"><div class="metric-label">Empresa retiene</div><div class="metric-val ${empTotal>=1888?'green':'red'}">${fmt(empTotal)}</div><div class="metric-sub">${empTotal>=1888?'Break-even superado':'Faltan '+fmt(1888-empTotal)}</div></div>
+    <div class="metric"><div class="metric-label">Tareas pendientes</div><div class="metric-val amber">${pend.length}</div><div class="metric-sub">${pend.filter(t=>t.prio==='alta').length} urgentes</div></div>`;
+  document.getElementById('dash-clientes').innerHTML=activos.length?activos.map(c=>`
+    <div class="row">
+      <div class="avatar ${c.servicio==='ia'?'av-p':'av-m'}">${c.nombre[0]}</div>
+      <div><div class="row-name">${c.nombre}</div><div class="row-sub">${c.sector}</div></div>
+      <div class="row-right">
+        <span class="badge ${c.servicio==='ia'?'badge-ia':'badge-ads'}">${c.servicio==='ia'?'IA E'+c.escala:'Ads'}</span>
+        <div style="font-size:11px;color:var(--text3);margin-top:3px">${c.fechaInicio}</div>
+      </div>
+    </div>`).join(''):'<div style="color:var(--text3);font-size:13px;padding:.5rem 0">Sin clientes activos</div>';
+  const urgentes=pend.filter(t=>t.prio==='alta').slice(0,5);
+  document.getElementById('dash-tareas').innerHTML=urgentes.length?urgentes.map(t=>`
+    <div class="row">
+      <div class="dot dot-alta"></div>
+      <div><div class="row-name" style="font-weight:400;font-size:13px">${t.titulo}</div><div class="row-sub">${t.resp} · ${t.fecha}</div></div>
+    </div>`).join(''):'<div style="color:var(--teal);font-size:13px;padding:.5rem 0">Sin tareas urgentes</div>';
+  document.getElementById('dash-fact').innerHTML=`
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;font-size:13px">
+      <div><div style="color:var(--text3);font-size:11px;margin-bottom:4px">IA</div><div style="font-weight:600">${fmt(ia.reduce((s,c)=>s+(RETS[c.escala-1]||0),0))}</div></div>
+      <div><div style="color:var(--text3);font-size:11px;margin-bottom:4px">Ads</div><div style="font-weight:600">${fmt(ads.length*1200)}</div></div>
+      <div><div style="color:var(--text3);font-size:11px;margin-bottom:4px">Total</div><div style="font-weight:600;color:var(--teal)">${fmt(factTotal)}</div></div>
+    </div>`;
+}
+
+function renderClientes(){
+  document.getElementById('cli-count').textContent=state.clientes.length+' clientes · '+state.clientes.filter(c=>c.estado==='activo').length+' activos';
+  document.getElementById('lista-clientes').innerHTML=state.clientes.map(c=>`
+    <div class="card">
+      <div class="card-header">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="avatar ${c.servicio==='ia'?'av-p':'av-m'}">${c.nombre[0]}</div>
+          <div><div class="card-title">${c.nombre}</div><div style="font-size:12px;color:var(--text2)">${c.sector}</div></div>
+        </div>
+        <div style="display:flex;gap:6px">
+          <span class="badge ${c.servicio==='ia'?'badge-ia':'badge-ads'}">${c.servicio==='ia'?'IA E'+c.escala:'Ads'}</span>
+          <span class="badge badge-${c.estado}">${c.estado}</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:12px">
+        <div><div style="color:var(--text3);margin-bottom:2px">Inicio</div><div>${c.fechaInicio||'—'}</div></div>
+        <div><div style="color:var(--text3);margin-bottom:2px">Setter</div><div>${c.setter}</div></div>
+        <div><div style="color:var(--text3);margin-bottom:2px">Closer</div><div>${c.closer}</div></div>
+        <div><div style="color:var(--text3);margin-bottom:2px">Mensualidad</div><div style="font-weight:600">${c.servicio==='ia'?fmt(RETS[c.escala-1]||860):'1.200€'}</div></div>
+        <div><div style="color:var(--text3);margin-bottom:2px">Empresa/mes</div><div style="font-weight:600;color:var(--teal)">${c.servicio==='ia'?fmt(calcIA(RETS[c.escala-1]||860).emp):'150€'}</div></div>
+        <div><div style="color:var(--text3);margin-bottom:2px">Cerrado por</div><div>${c.cerradoPor}</div></div>
+      </div>
+      ${c.notas?`<div style="margin-top:10px;font-size:12px;color:var(--text2);border-top:1px solid var(--border);padding-top:10px">${c.notas}</div>`:''}
+    </div>`).join('');
+}
+
+function renderPipeline(){
+  const fases=[{k:'contacto',l:'Contacto',col:'var(--blue)'},{k:'reunion',l:'Reunion',col:'var(--amber)'},{k:'cierre',l:'En cierre',col:'var(--purple)'},{k:'ganado',l:'Ganado',col:'var(--teal)'}];
+  document.getElementById('kanban').innerHTML=fases.map(f=>{
+    const items=state.pipeline.filter(p=>p.fase===f.k);
+    return`<div class="kanban-col">
+      <div class="kanban-col-header"><span style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:${f.col};display:inline-block"></span>${f.l}</span><span class="kanban-count">${items.length}</span></div>
+      ${items.map(p=>`<div class="kanban-card">
+        <div class="kanban-card-name">${p.nombre}</div>
+        <div class="kanban-card-sub">${p.sector}</div>
+        ${p.notas?`<div style="font-size:11px;color:var(--text3);margin-top:4px">${p.notas}</div>`:''}
+        <div class="kanban-card-footer"><span>${p.resp}</span><span style="color:${f.col};font-family:'DM Mono',monospace">${fmt(p.valor)}</span></div>
+      </div>`).join('')}
+    </div>`;
+  }).join('');
+}
+
+function renderEquipo(){
+  const socios=state.equipo.filter(e=>e.tipo==='socio');
+  const setters=state.equipo.filter(e=>e.tipo==='setter');
+  const colab=state.equipo.filter(e=>e.tipo==='colab');
+  document.getElementById('eq-socios').innerHTML=socios.map(e=>`
+    <div class="team-card">
+      <div class="avatar ${e.av}">${e.ini}</div>
+      <div style="flex:1">
+        <div class="team-name">${e.nombre}</div>
+        <div class="team-role">${e.rol}</div>
+        <div class="team-stat">Participacion: <span>${e.pct}%</span></div>
+        <div class="team-stat">Clientes activos: <span>${e.clientes}</span></div>
+        <div class="team-stat">Ventas totales: <span>${e.ventas}</span></div>
+      </div>
+    </div>`).join('');
+  document.getElementById('eq-setters').innerHTML=setters.map(e=>`
+    <div class="team-card">
+      <div class="avatar ${e.av}">${e.ini}</div>
+      <div style="flex:1">
+        <div class="team-name">${e.nombre}</div>
+        <div class="team-role">${e.rol}</div>
+        <div class="team-stat">Ventas este mes: <span>${e.ventas}</span></div>
+        <div class="team-stat">% actual: <span style="color:var(--purple)">${e.ventas<=6?'10':e.ventas<=14?'11':'12'}%</span></div>
+        <div class="progress"><div class="progress-fill" style="width:${Math.min(e.ventas/15*100,100)}%"></div></div>
+      </div>
+    </div>`).join('');
+  document.getElementById('eq-colab').innerHTML=colab.map(e=>`
+    <div class="team-card">
+      <div class="avatar ${e.av}">${e.ini}</div>
+      <div style="flex:1">
+        <div class="team-name">${e.nombre}</div>
+        <div class="team-role">${e.rol}</div>
+        <div class="team-stat">Clientes activos: <span>${e.clientes}</span></div>
+        <div class="team-stat">Tarifa: <span>${e.tarifa}</span></div>
+      </div>
+    </div>`).join('');
+}
+
+function renderTareas(){
+  const sorted=[...state.tareas].sort((a,b)=>{const o={alta:0,media:1,baja:2};return o[a.prio]-o[b.prio];});
+  const pend=sorted.filter(t=>t.estado==='pendiente');
+  const done=sorted.filter(t=>t.estado==='completada');
+  document.getElementById('task-count').textContent=pend.length+' pendientes · '+done.length+' completadas';
+  document.getElementById('lista-tareas').innerHTML=
+    sorted.map(t=>`
+    <div class="card" style="padding:.85rem 1.25rem;margin-bottom:8px;opacity:${t.estado==='completada'?.5:1}">
+      <div style="display:flex;align-items:center;gap:12px">
+        <input type="checkbox" ${t.estado==='completada'?'checked':''} onchange="toggleTarea(${t.id})">
+        <div style="flex:1;${t.estado==='completada'?'text-decoration:line-through;color:var(--text3)':''}">
+          <div style="font-size:13px;font-weight:500">${t.titulo}</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:2px">${t.resp} · ${t.fecha}</div>
+        </div>
+        <span class="badge badge-${t.prio}">${t.prio}</span>
+      </div>
+    </div>`).join('');
+}
+
+function renderFinanciero(){
+  const activos=state.clientes.filter(c=>c.estado==='activo');
+  const ia=activos.filter(c=>c.servicio==='ia');
+  const ads=activos.filter(c=>c.servicio==='ads');
+  const fact=ia.reduce((s,c)=>s+(RETS[c.escala-1]||0),0)+ads.length*1200;
+  const emp=ia.reduce((s,c)=>s+calcIA(RETS[c.escala-1]||860).emp,0)+ads.length*600*0.25;
+  const costes=1888;
+  document.getElementById('fin-metrics').innerHTML=`
+    <div class="metric"><div class="metric-label">Facturacion/mes</div><div class="metric-val">${fmt(fact)}</div></div>
+    <div class="metric"><div class="metric-label">Empresa retiene</div><div class="metric-val ${emp>=costes?'green':'red'}">${fmt(emp)}</div></div>
+    <div class="metric"><div class="metric-label">Costes fijos</div><div class="metric-val amber">1.888€</div></div>
+    <div class="metric"><div class="metric-label">Resultado</div><div class="metric-val ${emp-costes>=0?'green':'red'}">${emp-costes>=0?'+':''}${fmt(emp-costes)}</div></div>`;
+  const meses=['Mayo','Junio','Julio','Agosto','Sept','Oct'];
+  document.getElementById('proy-table').innerHTML=`<div class="table-wrap"><table>
+    <thead><tr><th>Mes</th><th>Cli</th><th>Fact</th><th>Empresa</th><th>Resultado</th></tr></thead>
+    <tbody>${meses.map((m,i)=>{
+      const nCli=(i+1)*4;
+      const nRet=i*4;
+      const fIA=nRet*860+2*1300;
+      const fAds=(nCli)*1200;
+      const f=fIA+fAds;
+      const e=f*0.14;
+      const c=i<2?483:1888;
+      const r=e-c;
+      return`<tr><td>${m}</td><td>${nCli}</td><td style="font-family:'DM Mono',monospace">${fmt(f)}</td><td style="font-family:'DM Mono',monospace">${fmt(e)}</td><td style="font-family:'DM Mono',monospace;color:${r>=0?'var(--teal)':'var(--red)'}">${r>=0?'+':''}${fmt(r)}</td></tr>`;
+    }).join('')}</tbody></table></div>`;
+}
+
+function calcComision(){
+  const tipo=document.getElementById('calc-tipo')?.value;
+  const escala=parseInt(document.getElementById('calc-escala')?.value||1)-1;
+  const mes=document.getElementById('calc-mes')?.value;
+  if(!tipo)return;
+  let precio,david=0,edu=0;
+  if(tipo==='ia-setup'){precio=SETUPS[escala];david=precio*0.30;}
+  else if(tipo==='ia-ret'){precio=RETS[escala];david=precio*0.30;}
+  else{precio=mes==='julio'?1400:1200;edu=mes==='julio'?700:600;}
+  const resto=precio-(david||edu);
+  const r={emp:resto*0.25,pedro:resto*0.13,josemi:resto*0.13,markel:resto*0.115,adri:resto*0.115,closer:resto*0.10,setter:resto*0.10,pool:resto*0.06/6};
+  document.getElementById('calc-result').innerHTML=`
+    <div style="margin-top:12px;font-size:11px;color:var(--text3);margin-bottom:8px">Precio: ${fmt(precio)} · Resto a repartir: ${fmt(resto)}</div>
+    <div class="calc-grid">
+      ${david?`<div class="calc-item tecnico"><div class="lbl">David</div><div class="val">${fmt(david)}</div></div>`:''}
+      ${edu?`<div class="calc-item tecnico"><div class="lbl">Edu</div><div class="val">${fmt(edu)}</div></div>`:''}
+      <div class="calc-item empresa"><div class="lbl">Empresa</div><div class="val">${fmt(r.emp)}</div></div>
+      <div class="calc-item"><div class="lbl">Pedro</div><div class="val">${fmt(r.pedro)}</div></div>
+      <div class="calc-item"><div class="lbl">Josemi</div><div class="val">${fmt(r.josemi)}</div></div>
+      <div class="calc-item"><div class="lbl">Markel</div><div class="val">${fmt(r.markel)}</div></div>
+      <div class="calc-item"><div class="lbl">Adri</div><div class="val">${fmt(r.adri)}</div></div>
+      <div class="calc-item"><div class="lbl">Setter</div><div class="val">${fmt(r.setter)}</div></div>
+      <div class="calc-item"><div class="lbl">Closer</div><div class="val">${fmt(r.closer)}</div></div>
+      <div class="calc-item"><div class="lbl">Pool c/u</div><div class="val">${fmt(r.pool)}</div></div>
+    </div>`;
+}
+
+function toggleTarea(id){
+  const t=state.tareas.find(t=>t.id===id);
+  if(t)t.estado=t.estado==='completada'?'pendiente':'completada';
+  renderTareas();
+  if(document.getElementById('sec-dashboard').classList.contains('active'))renderDashboard();
+}
+
+function openModal(type){
+  if(type==='cliente')document.getElementById('f-fecha').value=today;
+  if(type==='tarea')document.getElementById('t-fecha').value=today;
+  document.getElementById('modal-'+type).classList.add('open');
+}
+function closeModal(type){document.getElementById('modal-'+type).classList.remove('open');}
+
+function guardarCliente(){
+  const nombre=document.getElementById('f-nombre').value.trim();
+  if(!nombre)return;
+  state.clientes.push({id:Date.now(),nombre,sector:document.getElementById('f-sector').value||'—',servicio:document.getElementById('f-servicio').value,escala:parseInt(document.getElementById('f-escala').value),estado:'activo',fechaInicio:document.getElementById('f-fecha').value||today,setter:document.getElementById('f-setter').value||'—',closer:document.getElementById('f-closer').value||'Adri',cerradoPor:document.getElementById('f-cerrado').value||'Pedro',notas:document.getElementById('f-notas').value});
+  closeModal('cliente');renderClientes();renderDashboard();
+}
+
+function guardarTarea(){
+  const titulo=document.getElementById('t-titulo').value.trim();
+  if(!titulo)return;
+  state.tareas.push({id:Date.now(),titulo,resp:document.getElementById('t-resp').value||'Josemi',prio:document.getElementById('t-prio').value,estado:'pendiente',fecha:document.getElementById('t-fecha').value||today});
+  closeModal('tarea');renderTareas();renderDashboard();
+}
+
+function guardarPipeline(){
+  const nombre=document.getElementById('p-nombre').value.trim();
+  if(!nombre)return;
+  state.pipeline.push({id:Date.now(),nombre,sector:document.getElementById('p-sector').value||'—',valor:parseInt(document.getElementById('p-valor').value)||1300,fase:document.getElementById('p-fase').value,resp:document.getElementById('p-resp').value||'Pedro',notas:document.getElementById('p-notas').value});
+  closeModal('pipeline');renderPipeline();
+}
+
+function enviarChat(){
+  const input=document.getElementById('chat-input');
+  const msg=input.value.trim();if(!msg)return;
+  input.value='';
+  const msgs=document.getElementById('chat-msgs');
+  msgs.innerHTML+=`<div class="msg msg-user">${msg}</div>`;
+  msgs.scrollTop=msgs.scrollHeight;
+  setTimeout(()=>{
+    const resp=procesarComando(msg);
+    msgs.innerHTML+=`<div class="msg msg-ai"><div class="msg-tag">LEVELUP IA ASSISTANT</div>${resp}</div>`;
+    msgs.scrollTop=msgs.scrollHeight;
+  },350);
+}
+
+function procesarComando(msg){
+  const m=msg.toLowerCase();
+  if(m.includes('añade cliente')||m.includes('nuevo cliente')){
+    const nombre=msg.match(/cliente\s+([A-Za-zÀ-ú\s]+?)(?:,|\.|$)/i)?.[1]?.trim();
+    if(!nombre)return'Dime el nombre. Ej: "Añade cliente Diego, fisio, IA escala 1, cerrado por Pedro"';
+    const servicio=m.includes('ads')?'ads':'ia';
+    const escala=parseInt(m.match(/escala\s*(\d)/i)?.[1]||'1');
+    const sector=m.match(/,\s*([^,]+?),\s*(?:ia|ads)/i)?.[1]?.trim()||'—';
+    const cerradoPor=m.match(/cerrado por\s+(\w+)/i)?.[1]||'Pedro';
+    state.clientes.push({id:Date.now(),nombre,sector,servicio,escala,estado:'activo',fechaInicio:today,setter:'—',closer:'Adri',cerradoPor,notas:''});
+    renderClientes();renderDashboard();
+    return`Cliente "${nombre}" añadido. Servicio: ${servicio==='ia'?'IA escala '+escala:'Ads'}. Cerrado por ${cerradoPor}.`;
+  }
+  if(m.includes('nueva tarea')||m.includes('añade tarea')){
+    const titulo=msg.match(/tarea[:\s]+(.+?)(?:,\s*responsable|,\s*resp|$)/i)?.[1]?.trim();
+    if(!titulo)return'Dime el titulo. Ej: "Nueva tarea: llamar Iker, responsable Josemi, urgente"';
+    const resp=msg.match(/(?:responsable|resp)[:\s]+(\w+)/i)?.[1]||'Josemi';
+    const prio=m.includes('urgente')||m.includes('alta')?'alta':m.includes('baja')?'baja':'media';
+    state.tareas.push({id:Date.now(),titulo,resp,prio,estado:'pendiente',fecha:today});
+    renderTareas();renderDashboard();
+    return`Tarea "${titulo}" creada. Responsable: ${resp}. Prioridad: ${prio}.`;
+  }
+  if(m.includes('completada')||m.includes('completar')||m.includes('hecha')){
+    const kw=msg.replace(/marca|tarea|como|completada|completar|hecha/gi,'').trim().toLowerCase();
+    const t=state.tareas.find(t=>kw&&t.titulo.toLowerCase().includes(kw)&&t.estado==='pendiente');
+    if(t){t.estado='completada';renderTareas();renderDashboard();return`Tarea "${t.titulo}" marcada como completada.`;}
+    return`No encontre esa tarea pendiente. Escribe parte del titulo.`;
+  }
+  if(m.includes('cambia estado')||m.includes('pausar')||m.includes('pausado')||m.includes('activa')){
+    const est=m.includes('pausad')?'pausado':m.includes('activ')?'activo':'pipeline';
+    const kw=msg.replace(/cambia|estado|de|a|pausado|activo|pausar|activar/gi,'').trim().toLowerCase();
+    const c=state.clientes.find(c=>kw&&c.nombre.toLowerCase().includes(kw));
+    if(c){c.estado=est;renderClientes();renderDashboard();return`Estado de "${c.nombre}" cambiado a "${est}".`;}
+    return`No encontre ese cliente.`;
+  }
+  if(m.includes('añade prospecto')||m.includes('nuevo prospecto')){
+    const nombre=msg.match(/prospecto[:\s]+([A-Za-zÀ-ú\s]+?)(?:,|$)/i)?.[1]?.trim();
+    if(!nombre)return'Dime el nombre del prospecto.';
+    const fase=m.includes('reunion')?'reunion':m.includes('cierre')?'cierre':m.includes('ganado')?'ganado':'contacto';
+    state.pipeline.push({id:Date.now(),nombre,sector:'—',valor:1300,fase,resp:'Pedro',notas:''});
+    renderPipeline();
+    return`Prospecto "${nombre}" añadido al pipeline en fase "${fase}".`;
+  }
+  if(m.includes('resumen')||m.includes('cuantos')||m.includes('estado')){
+    const a=state.clientes.filter(c=>c.estado==='activo');
+    const ia=a.filter(c=>c.servicio==='ia');
+    const ads=a.filter(c=>c.servicio==='ads');
+    const pend=state.tareas.filter(t=>t.estado==='pendiente');
+    const fact=ia.reduce((s,c)=>s+(RETS[c.escala-1]||0),0)+ads.length*1200;
+    return`Resumen actual:\n— ${a.length} clientes activos (${ia.length} IA, ${ads.length} Ads)\n— ${fmt(fact)}/mes facturacion recurrente\n— ${pend.length} tareas pendientes (${pend.filter(t=>t.prio==='alta').length} urgentes)\n— ${state.pipeline.length} prospectos en pipeline`;
+  }
+  return`No entendi el comando. Puedes decirme:\n— "Añade cliente [nombre], [sector], IA escala [1-4], cerrado por [persona]"\n— "Nueva tarea: [titulo], responsable [persona], urgente/media/baja"\n— "Marca tarea [titulo] como completada"\n— "Cambia estado de [cliente] a pausado/activo"\n— "Añade prospecto [nombre], fase reunion/cierre"\n— "Resumen"`;
+}
+
+document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
+renderDashboard();
+calcComision();
+</script>
+</body>
+</html>
