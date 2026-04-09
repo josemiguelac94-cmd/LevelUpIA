@@ -20,9 +20,24 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh}
-.layout{display:flex;min-height:100vh}
 
-/* SIDEBAR */
+/* LOGIN */
+.login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--bg)}
+.login-box{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:2.5rem;width:360px}
+.login-logo{font-size:20px;font-weight:600;letter-spacing:-.02em;margin-bottom:4px}
+.login-sub{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:2rem}
+.login-error{background:var(--red-bg);border:1px solid var(--red);color:var(--red);font-size:12px;padding:8px 12px;border-radius:var(--radius);margin-bottom:12px;display:none}
+.login-form .form-group{margin-bottom:12px}
+.login-form .form-group label{display:block;font-size:12px;color:var(--text2);margin-bottom:5px}
+.login-form input{width:100%;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:9px 12px;border-radius:var(--radius);font-size:13px;font-family:'DM Sans',sans-serif;outline:none}
+.login-form input:focus{border-color:var(--purple)}
+.login-btn{width:100%;padding:10px;background:var(--purple-dim);border:1px solid var(--purple);color:var(--purple);border-radius:var(--radius);cursor:pointer;font-size:14px;font-weight:500;font-family:'DM Sans',sans-serif;margin-top:8px;transition:all .15s}
+.login-btn:hover{background:#2a1f5e}
+
+/* LAYOUT */
+.app{display:none;min-height:100vh;flex-direction:column}
+.app.visible{display:flex}
+.layout{display:flex;flex:1}
 .sidebar{width:220px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
 .logo{padding:1.5rem 1.25rem 1rem;border-bottom:1px solid var(--border)}
 .logo-name{font-size:15px;font-weight:600;letter-spacing:-.02em}
@@ -31,38 +46,32 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 .nav-item{display:flex;align-items:center;gap:10px;padding:9px 1.25rem;cursor:pointer;color:var(--text2);font-size:13px;transition:all .15s;border-left:2px solid transparent}
 .nav-item:hover{background:var(--bg3);color:var(--text)}
 .nav-item.active{background:var(--purple-dim);color:var(--purple);border-left-color:var(--purple);font-weight:500}
-.nav-icon{width:16px;height:16px;opacity:.7}
 .nav-section{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;padding:1rem 1.25rem .4rem;font-weight:500}
-.sidebar-bottom{padding:1rem 1.25rem;border-top:1px solid var(--border)}
+.sidebar-bottom{padding:1rem 1.25rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .version{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace}
-
-/* MAIN */
+.logout-btn{font-size:11px;padding:3px 10px;color:var(--text3);border-color:var(--border)}
+.logout-btn:hover{color:var(--red);border-color:var(--red)}
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden}
 .topbar{height:56px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 1.5rem;gap:12px;flex-shrink:0}
 .topbar-title{font-size:15px;font-weight:500;flex:1}
 .topbar-badge{background:var(--purple-dim);color:var(--purple);font-size:11px;padding:3px 10px;border-radius:99px;font-weight:500}
+.admin-tag{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace}
 .content{flex:1;overflow-y:auto;padding:1.5rem}
-
-/* SECTIONS */
 .section{display:none}.section.active{display:block}
 
-/* METRICS */
+/* COMPONENTS */
 .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
 .metric{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:1rem}
 .metric-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
 .metric-val{font-size:22px;font-weight:600;letter-spacing:-.02em}
 .metric-sub{font-size:11px;color:var(--text2);margin-top:3px}
 .metric-val.green{color:var(--teal)}.metric-val.red{color:var(--red)}.metric-val.purple{color:var(--purple)}.metric-val.amber{color:var(--amber)}
-
-/* CARDS */
 .card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:12px}
+.card:hover{border-color:var(--border2)}
 .card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
 .card-title{font-weight:500;font-size:14px}
-.card:hover{border-color:var(--border2)}
-
-/* BADGES */
 .badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:500;font-family:'DM Mono',monospace}
-.badge-active{background:var(--teal-bg);color:var(--teal)}
+.badge-activo{background:var(--teal-bg);color:var(--teal)}
 .badge-pipeline{background:var(--amber-bg);color:var(--amber)}
 .badge-pausado{background:var(--bg4);color:var(--text3)}
 .badge-ia{background:var(--purple-bg);color:var(--purple)}
@@ -70,8 +79,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 .badge-alta{background:var(--red-bg);color:var(--red)}
 .badge-media{background:var(--amber-bg);color:var(--amber)}
 .badge-baja{background:var(--bg4);color:var(--text3)}
-
-/* AVATAR */
 .avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:12px;flex-shrink:0;font-family:'DM Mono',monospace}
 .av-p{background:var(--purple-bg);color:var(--purple)}
 .av-j{background:var(--teal-bg);color:var(--teal)}
@@ -79,127 +86,107 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);fon
 .av-a{background:var(--red-bg);color:var(--red)}
 .av-d{background:var(--blue-bg);color:var(--blue)}
 .av-e{background:var(--green-bg);color:var(--green)}
-
-/* TABLE */
 .table-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:13px}
 th{text-align:left;color:var(--text3);font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;border-bottom:1px solid var(--border);font-weight:500}
 td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:var(--bg4)}
-
-/* GRID */
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-
-/* SECTION HEADER */
 .sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
 .sec-title{font-size:16px;font-weight:500}
 .sec-sub{font-size:12px;color:var(--text3);margin-top:2px}
-
-/* SLABEL */
 .slabel{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;font-weight:500;margin-bottom:8px}
-
-/* BTN */
 button{background:transparent;border:1px solid var(--border2);color:var(--text);padding:7px 14px;border-radius:var(--radius);cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;transition:all .15s}
 button:hover{background:var(--bg4);border-color:var(--text3)}
 button.primary{background:var(--purple-dim);border-color:var(--purple);color:var(--purple)}
 button.primary:hover{background:#2a1f5e}
-
-/* FORM */
+button.danger{background:var(--red-bg);border-color:var(--red);color:var(--red)}
+button.danger:hover{background:#3a1515}
+button.sm{padding:3px 10px;font-size:11px}
 .form-group{margin-bottom:12px}
 .form-group label{display:block;font-size:12px;color:var(--text2);margin-bottom:5px}
-input[type=text],input[type=number],input[type=date],select,textarea{background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:7px 10px;border-radius:var(--radius);font-size:13px;font-family:'DM Sans',sans-serif;width:100%;outline:none}
+input[type=text],input[type=number],input[type=date],input[type=password],select,textarea{background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:7px 10px;border-radius:var(--radius);font-size:13px;font-family:'DM Sans',sans-serif;width:100%;outline:none}
 input:focus,select:focus,textarea:focus{border-color:var(--purple)}
 select option{background:var(--bg4)}
-
-/* PIPELINE */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:1.5rem;width:440px;max-height:85vh;overflow-y:auto}
+.modal-title{font-size:15px;font-weight:500;margin-bottom:1.25rem}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border)}
 .kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .kanban-col{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-lg);padding:.75rem}
 .kanban-col-header{font-size:12px;font-weight:500;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
 .kanban-count{background:var(--bg4);color:var(--text3);font-size:11px;padding:1px 7px;border-radius:99px}
-.kanban-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:.75rem;margin-bottom:8px;cursor:pointer}
+.kanban-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:.75rem;margin-bottom:8px}
 .kanban-card:hover{border-color:var(--border2)}
 .kanban-card-name{font-weight:500;font-size:13px;margin-bottom:3px}
 .kanban-card-sub{font-size:11px;color:var(--text2)}
 .kanban-card-footer{display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--text3)}
-
-/* CHAT */
-.chat-container{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
-.chat-msgs{padding:1.25rem;min-height:180px;max-height:360px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
-.msg{max-width:82%;padding:10px 14px;border-radius:12px;font-size:13px;line-height:1.6;white-space:pre-wrap}
-.msg-user{background:var(--purple-dim);border:1px solid var(--purple);color:var(--text);align-self:flex-end;border-bottom-right-radius:3px}
-.msg-ai{background:var(--bg4);border:1px solid var(--border2);color:var(--text);align-self:flex-start;border-bottom-left-radius:3px}
-.msg-ai .msg-tag{font-size:10px;color:var(--purple);font-family:'DM Mono',monospace;margin-bottom:4px;font-weight:500}
-.chat-input-area{display:flex;gap:8px;padding:1rem;border-top:1px solid var(--border);background:var(--bg2)}
-.chat-input-area input{flex:1;font-size:13px}
-.chat-input-area button{padding:7px 16px;white-space:nowrap}
-
-/* PROGRESS */
-.progress{background:var(--bg4);border-radius:99px;height:4px;margin-top:8px;overflow:hidden}
-.progress-fill{height:4px;border-radius:99px;background:linear-gradient(90deg,var(--purple),var(--teal));transition:width .4s}
-
-/* ROW */
-.row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
-.row:last-child{border-bottom:none}
-.row-name{font-weight:500;font-size:13px}
-.row-sub{font-size:12px;color:var(--text2)}
-.row-right{margin-left:auto;text-align:right}
-
-/* CHECKBOX */
-input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--purple)}
-
-/* TEAM CARD */
 .team-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem;display:flex;gap:12px}
 .team-card:hover{border-color:var(--border2)}
 .team-name{font-weight:500;font-size:13px;margin-bottom:2px}
 .team-role{font-size:12px;color:var(--text2);margin-bottom:8px}
 .team-stat{font-size:11px;color:var(--text3);margin-bottom:2px}
 .team-stat span{color:var(--text);font-weight:500}
-
-/* MODAL */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;align-items:center;justify-content:center}
-.modal-overlay.open{display:flex}
-.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:1.5rem;width:420px;max-height:80vh;overflow-y:auto}
-.modal-title{font-size:15px;font-weight:500;margin-bottom:1.25rem}
-.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem}
-
-/* SCROLLBAR */
-::-webkit-scrollbar{width:4px;height:4px}
-::-webkit-scrollbar-track{background:var(--bg2)}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px}
-
-/* CALC RESULT */
+.progress{background:var(--bg4);border-radius:99px;height:4px;margin-top:8px;overflow:hidden}
+.progress-fill{height:4px;border-radius:99px;background:linear-gradient(90deg,var(--purple),var(--teal))}
+.row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.row:last-child{border-bottom:none}
+.row-name{font-weight:500;font-size:13px}
+.row-sub{font-size:12px;color:var(--text2)}
+.row-right{margin-left:auto;text-align:right}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dot-alta{background:var(--red)}.dot-media{background:var(--amber)}.dot-baja{background:var(--text3)}
+.sep{height:1px;background:var(--border);margin:1rem 0}
 .calc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:12px}
 .calc-item{background:var(--bg4);border:1px solid var(--border);border-radius:var(--radius);padding:.6rem .75rem}
 .calc-item .lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
 .calc-item .val{font-size:15px;font-weight:600;font-family:'DM Mono',monospace}
-.calc-item.empresa .val{color:var(--teal)}
-.calc-item.tecnico .val{color:var(--blue)}
-
-.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.dot-alta{background:var(--red)}
-.dot-media{background:var(--amber)}
-.dot-baja{background:var(--text3)}
-
-.sep{height:1px;background:var(--border);margin:1rem 0}
+.calc-item.empresa .val{color:var(--teal)}.calc-item.tecnico .val{color:var(--blue)}
+.chat-container{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.chat-msgs{padding:1.25rem;min-height:180px;max-height:360px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
+.msg{max-width:82%;padding:10px 14px;border-radius:12px;font-size:13px;line-height:1.6;white-space:pre-wrap}
+.msg-user{background:var(--purple-dim);border:1px solid var(--purple);color:var(--text);align-self:flex-end;border-bottom-right-radius:3px}
+.msg-ai{background:var(--bg4);border:1px solid var(--border2);color:var(--text);align-self:flex-start;border-bottom-left-radius:3px}
+.msg-tag{font-size:10px;color:var(--purple);font-family:'DM Mono',monospace;margin-bottom:4px;font-weight:500}
+.chat-input-area{display:flex;gap:8px;padding:1rem;border-top:1px solid var(--border);background:var(--bg2)}
+.chat-input-area input{flex:1;font-size:13px}
+.row-btns{display:flex;gap:5px;margin-left:auto}
+input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--purple)}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px}
 </style>
 </head>
 <body>
 
+<!-- LOGIN -->
+<div class="login-wrap" id="login-wrap">
+  <div class="login-box">
+    <div class="login-logo">LevelUp IA</div>
+    <div class="login-sub">crm · acceso restringido</div>
+    <div class="login-error" id="login-error">Usuario o contraseña incorrectos</div>
+    <div class="login-form">
+      <div class="form-group"><label>Usuario</label><input type="text" id="login-user" placeholder="admin" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <div class="form-group"><label>Contraseña</label><input type="password" id="login-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <button class="login-btn" onclick="doLogin()">Acceder al CRM</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app" id="app">
 <div class="layout">
   <aside class="sidebar">
-    <div class="logo">
-      <div class="logo-name">LevelUp IA</div>
-      <div class="logo-tag">CRM v1.0</div>
-    </div>
+    <div class="logo"><div class="logo-name">LevelUp IA</div><div class="logo-tag">CRM v2.0</div></div>
     <nav class="nav">
       <div class="nav-section">Principal</div>
       <div class="nav-item active" onclick="showTab('dashboard',this)"><span>◈</span> Dashboard</div>
       <div class="nav-item" onclick="showTab('clientes',this)"><span>◉</span> Clientes</div>
       <div class="nav-item" onclick="showTab('pipeline',this)"><span>◧</span> Pipeline</div>
-      <div class="nav-section">Gestión</div>
+      <div class="nav-section">Gestion</div>
       <div class="nav-item" onclick="showTab('equipo',this)"><span>◎</span> Equipo</div>
       <div class="nav-item" onclick="showTab('comisiones',this)"><span>◈</span> Comisiones</div>
       <div class="nav-item" onclick="showTab('tareas',this)"><span>◻</span> Tareas</div>
@@ -209,15 +196,15 @@ input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--pu
       <div class="nav-item" onclick="showTab('asistente',this)"><span>◈</span> Asistente</div>
     </nav>
     <div class="sidebar-bottom">
-      <div class="version">levelupia.crm · 2025</div>
+      <div class="version">admin · levelupia</div>
+      <button class="logout-btn" onclick="doLogout()">Salir</button>
     </div>
   </aside>
-
   <div class="main">
     <div class="topbar">
       <div class="topbar-title" id="topbar-title">Dashboard</div>
       <span class="topbar-badge" id="topbar-badge">Vista general</span>
-      <button class="primary" onclick="showTab('asistente',null)">+ Asistente IA</button>
+      <span class="admin-tag">ADMIN</span>
     </div>
     <div class="content">
 
@@ -225,15 +212,10 @@ input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--pu
       <div id="sec-dashboard" class="section active">
         <div class="metrics" id="dash-metrics"></div>
         <div class="grid2">
+          <div><div class="slabel">Clientes activos</div><div class="card" id="dash-clientes"></div></div>
           <div>
-            <div class="slabel">Clientes activos</div>
-            <div class="card" id="dash-clientes"></div>
-          </div>
-          <div>
-            <div class="slabel">Tareas urgentes</div>
-            <div class="card" id="dash-tareas"></div>
-            <div class="slabel" style="margin-top:1rem">Facturacion recurrente</div>
-            <div class="card" id="dash-fact"></div>
+            <div class="slabel">Tareas urgentes</div><div class="card" id="dash-tareas"></div>
+            <div class="slabel" style="margin-top:1rem">Facturacion recurrente</div><div class="card" id="dash-fact"></div>
           </div>
         </div>
       </div>
@@ -250,7 +232,7 @@ input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--pu
       <!-- PIPELINE -->
       <div id="sec-pipeline" class="section">
         <div class="sec-header">
-          <div><div class="sec-title">Pipeline</div><div class="sec-sub">Prospectos en proceso</div></div>
+          <div><div class="sec-title">Pipeline</div><div class="sec-sub" id="pip-count"></div></div>
           <button class="primary" onclick="openModal('pipeline')">+ Nuevo prospecto</button>
         </div>
         <div class="kanban" id="kanban"></div>
@@ -258,6 +240,10 @@ input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--pu
 
       <!-- EQUIPO -->
       <div id="sec-equipo" class="section">
+        <div class="sec-header">
+          <div><div class="sec-title">Equipo</div><div class="sec-sub" id="eq-count"></div></div>
+          <button class="primary" onclick="openModal('equipo')">+ Nuevo miembro</button>
+        </div>
         <div class="slabel">Socios fundadores</div>
         <div class="grid2" id="eq-socios" style="margin-bottom:1.5rem"></div>
         <div class="slabel">Equipo comercial</div>
@@ -268,27 +254,18 @@ input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--pu
 
       <!-- COMISIONES -->
       <div id="sec-comisiones" class="section">
+        <div class="sec-header">
+          <div><div class="sec-title">Comisiones</div></div>
+          <button class="primary" onclick="openModal('comision')">Editar estructura</button>
+        </div>
         <div class="slabel">Estructura vigente</div>
         <div class="card" style="margin-bottom:1rem">
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Quien</th><th>%</th><th>Base</th><th>Aplica</th></tr></thead>
-              <tbody>
-                <tr><td>Empresa</td><td style="color:var(--teal);font-family:'DM Mono',monospace">25%</td><td>Resto tras David/Edu</td><td>Siempre</td></tr>
-                <tr><td>Pedro</td><td style="color:var(--purple);font-family:'DM Mono',monospace">13%</td><td>Resto</td><td>Toda la facturacion</td></tr>
-                <tr><td>Josemi</td><td style="color:var(--purple);font-family:'DM Mono',monospace">13%</td><td>Resto</td><td>Toda la facturacion</td></tr>
-                <tr><td>Markel</td><td style="color:var(--purple);font-family:'DM Mono',monospace">11.5%</td><td>Resto</td><td>Toda la facturacion</td></tr>
-                <tr><td>Adri</td><td style="color:var(--purple);font-family:'DM Mono',monospace">11.5%</td><td>Resto</td><td>Toda la facturacion</td></tr>
-                <tr><td>Closer</td><td style="font-family:'DM Mono',monospace">10%</td><td>Resto</td><td>Setup + retencion sus clientes</td></tr>
-                <tr><td>Setter</td><td style="font-family:'DM Mono',monospace">10%</td><td>Resto</td><td>Setup + retencion sus clientes</td></tr>
-                <tr><td>Pool / 6</td><td style="font-family:'DM Mono',monospace">6%</td><td>Resto</td><td>Toda la facturacion</td></tr>
-                <tr><td>David</td><td style="color:var(--blue);font-family:'DM Mono',monospace">30%</td><td>Bruto IA</td><td>Antes del reparto</td></tr>
-                <tr><td>Edu</td><td style="color:var(--green);font-family:'DM Mono',monospace">600/700€</td><td>Fijo por cliente</td><td>Mayo-Jun / Jul+</td></tr>
-              </tbody>
-            </table>
-          </div>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Quien</th><th>%</th><th>Base</th><th>Aplica</th></tr></thead>
+            <tbody id="com-tabla"></tbody>
+          </table></div>
         </div>
-        <div class="slabel">Calculadora</div>
+        <div class="slabel">Calculadora de comisiones</div>
         <div class="card">
           <div style="display:flex;gap:10px;flex-wrap:wrap">
             <div class="form-group" style="margin:0"><label>Tipo</label><select id="calc-tipo" onchange="calcComision()" style="width:160px"><option value="ia-setup">IA Setup</option><option value="ia-ret">IA Retencion</option><option value="ads">Ads</option></select></div>
@@ -301,11 +278,9 @@ input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--pu
         <div class="slabel">Escalado setter</div>
         <div class="card">
           <table><thead><tr><th>Ventas/mes</th><th>% Setter</th></tr></thead>
-          <tbody>
-            <tr><td>1 a 6</td><td style="color:var(--text);font-family:'DM Mono',monospace">10%</td></tr>
-            <tr><td>7 a 14</td><td style="color:var(--amber);font-family:'DM Mono',monospace">11%</td></tr>
-            <tr><td>15+</td><td style="color:var(--teal);font-family:'DM Mono',monospace">12%</td></tr>
-          </tbody></table>
+          <tbody><tr><td>1 a 6</td><td style="color:var(--text);font-family:'DM Mono',monospace">10%</td></tr>
+          <tr><td>7 a 14</td><td style="color:var(--amber);font-family:'DM Mono',monospace">11%</td></tr>
+          <tr><td>15+</td><td style="color:var(--teal);font-family:'DM Mono',monospace">12%</td></tr></tbody></table>
         </div>
       </div>
 
@@ -320,39 +295,26 @@ input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--pu
 
       <!-- FINANCIERO -->
       <div id="sec-financiero" class="section">
+        <div class="sec-header">
+          <div><div class="sec-title">Financiero</div></div>
+          <button class="primary" onclick="openModal('costeFijo')">Editar costes</button>
+        </div>
         <div class="metrics" id="fin-metrics"></div>
         <div class="grid2">
           <div>
             <div class="slabel">Costes fijos mensuales</div>
-            <div class="card">
-              <table><thead><tr><th>Concepto</th><th>Antes SL</th><th>Desde julio</th></tr></thead>
-              <tbody>
-                <tr><td>SS autonomos x4</td><td style="color:var(--text3)">—</td><td>1.280€</td></tr>
-                <tr><td>n8n + OpenAI</td><td>20€</td><td>20€</td></tr>
-                <tr><td>ManyChat + CRM</td><td>35€</td><td>35€</td></tr>
-                <tr><td>Workspace + Scraping</td><td>68€</td><td>68€</td></tr>
-                <tr><td>Gestoria</td><td style="color:var(--text3)">—</td><td>125€</td></tr>
-                <tr><td>Anuncios + web</td><td>310€</td><td>310€</td></tr>
-                <tr><td>Imprevistos</td><td>50€</td><td>50€</td></tr>
-                <tr><td style="font-weight:600">Total</td><td style="font-weight:600;color:var(--amber)">483€</td><td style="font-weight:600;color:var(--red)">1.888€</td></tr>
-              </tbody></table>
-            </div>
+            <div class="card"><div id="costes-tabla"></div></div>
           </div>
           <div>
             <div class="slabel">Proyeccion 6 meses</div>
-            <div class="card">
-              <div id="proy-table"></div>
-            </div>
+            <div class="card"><div id="proy-table"></div></div>
             <div class="slabel" style="margin-top:1rem">Inversion socios</div>
-            <div class="card">
-              <table><thead><tr><th>Fecha</th><th>c/socio</th><th>Total</th></tr></thead>
-              <tbody>
-                <tr><td>20 abril</td><td>200€</td><td>800€</td></tr>
-                <tr><td>20 mayo</td><td>200€</td><td>800€</td></tr>
-                <tr><td>Junio SL</td><td>1.500€</td><td>6.000€</td></tr>
-                <tr><td style="font-weight:600">Total</td><td style="font-weight:600">1.900€</td><td style="font-weight:600;color:var(--purple)">7.600€</td></tr>
-              </tbody></table>
-            </div>
+            <div class="card"><table><thead><tr><th>Fecha</th><th>c/socio</th><th>Total</th></tr></thead>
+            <tbody><tr><td>20 abril</td><td>200€</td><td>800€</td></tr>
+            <tr><td>20 mayo</td><td>200€</td><td>800€</td></tr>
+            <tr><td>Junio SL</td><td>1.500€</td><td>6.000€</td></tr>
+            <tr><td style="font-weight:600">Total</td><td style="font-weight:600">1.900€</td><td style="font-weight:600;color:var(--purple)">7.600€</td></tr>
+            </tbody></table></div>
           </div>
         </div>
       </div>
@@ -362,7 +324,7 @@ input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--pu
         <div class="sec-header"><div class="sec-title">Asistente IA</div></div>
         <div class="card" style="margin-bottom:12px;background:var(--purple-bg);border-color:var(--purple)">
           <div style="font-size:12px;color:var(--text2);line-height:1.7">
-            Ejemplos: <code style="color:var(--purple)">"Añade cliente Diego, fisio, IA escala 1, cerrado por Pedro"</code> — <code style="color:var(--purple)">"Nueva tarea: llamar a Iker, responsable Josemi, urgente"</code> — <code style="color:var(--purple)">"Marca tarea de scraping como completada"</code> — <code style="color:var(--purple)">"Cuantos clientes tenemos"</code>
+            Ejemplos: <code style="color:var(--purple)">"Añade cliente Diego, fisio, IA escala 1, cerrado por Pedro"</code> — <code style="color:var(--purple)">"Nueva tarea: llamar a Iker, responsable Josemi, urgente"</code> — <code style="color:var(--purple)">"Marca tarea de scraping como completada"</code> — <code style="color:var(--purple)">"Resumen"</code>
           </div>
         </div>
         <div class="chat-container">
@@ -379,15 +341,17 @@ input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--pu
     </div>
   </div>
 </div>
+</div>
 
-<!-- MODALS -->
+<!-- MODALES -->
 <div class="modal-overlay" id="modal-cliente">
   <div class="modal">
-    <div class="modal-title">Nuevo cliente</div>
+    <div class="modal-title" id="modal-cliente-title">Nuevo cliente</div>
     <div class="form-group"><label>Nombre</label><input type="text" id="f-nombre"></div>
     <div class="form-group"><label>Sector</label><input type="text" id="f-sector"></div>
     <div class="form-group"><label>Servicio</label><select id="f-servicio"><option value="ia">Agente IA</option><option value="ads">Marca y Ads</option></select></div>
     <div class="form-group"><label>Escala IA (1-4)</label><select id="f-escala"><option>1</option><option>2</option><option>3</option><option>4</option></select></div>
+    <div class="form-group"><label>Estado</label><select id="f-estado"><option value="activo">Activo</option><option value="pipeline">Pipeline</option><option value="pausado">Pausado</option></select></div>
     <div class="form-group"><label>Setter</label><input type="text" id="f-setter" value="Pedro"></div>
     <div class="form-group"><label>Closer</label><input type="text" id="f-closer" value="Adri"></div>
     <div class="form-group"><label>Cerrado por</label><input type="text" id="f-cerrado" value="Pedro"></div>
@@ -402,7 +366,7 @@ input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--pu
 
 <div class="modal-overlay" id="modal-tarea">
   <div class="modal">
-    <div class="modal-title">Nueva tarea</div>
+    <div class="modal-title" id="modal-tarea-title">Nueva tarea</div>
     <div class="form-group"><label>Titulo</label><input type="text" id="t-titulo"></div>
     <div class="form-group"><label>Responsable</label><input type="text" id="t-resp" value="Josemi"></div>
     <div class="form-group"><label>Prioridad</label><select id="t-prio"><option value="alta">Alta</option><option value="media">Media</option><option value="baja">Baja</option></select></div>
@@ -416,7 +380,7 @@ input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--pu
 
 <div class="modal-overlay" id="modal-pipeline">
   <div class="modal">
-    <div class="modal-title">Nuevo prospecto</div>
+    <div class="modal-title" id="modal-pipeline-title">Nuevo prospecto</div>
     <div class="form-group"><label>Nombre</label><input type="text" id="p-nombre"></div>
     <div class="form-group"><label>Sector</label><input type="text" id="p-sector"></div>
     <div class="form-group"><label>Valor estimado (€)</label><input type="number" id="p-valor" value="1300"></div>
@@ -430,16 +394,76 @@ input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--pu
   </div>
 </div>
 
+<div class="modal-overlay" id="modal-equipo">
+  <div class="modal">
+    <div class="modal-title" id="modal-equipo-title">Nuevo miembro</div>
+    <div class="form-group"><label>Nombre</label><input type="text" id="e-nombre"></div>
+    <div class="form-group"><label>Rol / Cargo</label><input type="text" id="e-rol"></div>
+    <div class="form-group"><label>Tipo</label><select id="e-tipo"><option value="socio">Socio</option><option value="setter">Setter / Comercial</option><option value="colab">Colaborador externo</option></select></div>
+    <div class="form-group"><label>Participacion % (socios)</label><input type="number" id="e-pct" value="0" min="0" max="100"></div>
+    <div class="form-group"><label>Tarifa (colaboradores)</label><input type="text" id="e-tarifa" placeholder="Ej: 30% bruto IA"></div>
+    <div class="form-group"><label>Ventas este mes</label><input type="number" id="e-ventas" value="0" min="0"></div>
+    <div class="form-group"><label>Clientes activos</label><input type="number" id="e-clientes" value="0" min="0"></div>
+    <div class="modal-footer">
+      <button onclick="closeModal('equipo')">Cancelar</button>
+      <button class="primary" onclick="guardarEquipo()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-comision">
+  <div class="modal">
+    <div class="modal-title">Editar estructura de comisiones</div>
+    <div id="com-form"></div>
+    <div class="modal-footer">
+      <button onclick="closeModal('comision')">Cancelar</button>
+      <button class="primary" onclick="guardarComisiones()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-costeFijo">
+  <div class="modal">
+    <div class="modal-title">Editar costes fijos</div>
+    <div id="costes-form"></div>
+    <div class="modal-footer">
+      <button onclick="closeModal('costeFijo')">Cancelar</button>
+      <button class="primary" onclick="guardarCostes()">Guardar</button>
+    </div>
+  </div>
+</div>
+
 <script>
+const CREDS={admin:'levelupia2025'};
 const SETUPS=[1300,1600,1900,2200];
 const RETS=[860,1160,1460,2000];
 const fmt=n=>Math.round(n).toLocaleString('es-ES')+'€';
 const today=new Date().toISOString().split('T')[0];
+const TABS={dashboard:'Dashboard',clientes:'Clientes',pipeline:'Pipeline',equipo:'Equipo',comisiones:'Comisiones',tareas:'Tareas',financiero:'Financiero',asistente:'Asistente IA'};
+const BADGES={dashboard:'Vista general',clientes:'Gestion de clientes',pipeline:'Prospectos',equipo:'Estructura del equipo',comisiones:'Estructura y calculadora',tareas:'Lista de tareas',financiero:'Finanzas y proyeccion',asistente:'Modificar CRM con IA'};
+
+function doLogin(){
+  const u=document.getElementById('login-user').value.trim();
+  const p=document.getElementById('login-pass').value;
+  if(CREDS[u]&&CREDS[u]===p){
+    document.getElementById('login-wrap').style.display='none';
+    document.getElementById('app').classList.add('visible');
+    renderDashboard();calcComision();renderCostes();renderComTabla();
+  }else{
+    document.getElementById('login-error').style.display='block';
+  }
+}
+function doLogout(){
+  document.getElementById('app').classList.remove('visible');
+  document.getElementById('login-wrap').style.display='flex';
+  document.getElementById('login-pass').value='';
+  document.getElementById('login-error').style.display='none';
+}
 
 let state={
   clientes:[
-    {id:1,nombre:'Diego',sector:'Entrenador personal',servicio:'ia',escala:1,estado:'activo',fechaInicio:'2025-04-01',setter:'Pedro',closer:'Adri',cerradoPor:'Pedro',notas:'Caso de exito. 50k€/mes facturacion tras implementacion.'},
-    {id:2,nombre:'Jordi',sector:'Clinica estetica',servicio:'ia',escala:1,estado:'activo',fechaInicio:'2025-04-05',setter:'Pedro',closer:'Adri',cerradoPor:'Pedro',notas:'Agente Instagram basico. Agendamiento automatico.'},
+    {id:1,nombre:'Diego',sector:'Entrenador personal',servicio:'ia',escala:1,estado:'activo',fechaInicio:'2025-04-01',setter:'Pedro',closer:'Adri',cerradoPor:'Pedro',notas:'Caso de exito. 50k€/mes facturacion.'},
+    {id:2,nombre:'Jordi',sector:'Clinica estetica',servicio:'ia',escala:1,estado:'activo',fechaInicio:'2025-04-05',setter:'Pedro',closer:'Adri',cerradoPor:'Pedro',notas:'Agente Instagram basico.'},
     {id:3,nombre:'Concesionario Pusher',sector:'Automocion',servicio:'ads',escala:0,estado:'activo',fechaInicio:'2025-04-08',setter:'Pedro',closer:'Adri',cerradoPor:'Pedro',notas:'Primer cliente Ads.'},
   ],
   equipo:[
@@ -447,11 +471,11 @@ let state={
     {id:2,nombre:'Josemi',rol:'Direccion de operaciones',tipo:'socio',pct:25,av:'av-j',ini:'J',ventas:0,clientes:0},
     {id:3,nombre:'Markel',rol:'Direccion de ventas',tipo:'socio',pct:25,av:'av-m',ini:'M',ventas:1,clientes:1},
     {id:4,nombre:'Adri',rol:'Closer y formacion',tipo:'socio',pct:25,av:'av-a',ini:'A',ventas:3,clientes:3},
-    {id:5,nombre:'David',rol:'Tecnico IA',tipo:'colab',av:'av-d',ini:'D',clientes:2,tarifa:'30% bruto IA'},
-    {id:6,nombre:'Edu',rol:'Filmmaking + Ads',tipo:'colab',av:'av-e',ini:'E',clientes:1,tarifa:'600€/cliente'},
-    {id:7,nombre:'Juan',rol:'Setter',tipo:'setter',av:'av-p',ini:'Ju',ventas:0},
-    {id:8,nombre:'Mario',rol:'Setter / Jefe equipo',tipo:'setter',av:'av-m',ini:'Ma',ventas:0},
-    {id:9,nombre:'Marisol',rol:'Setter / Jefa equipo',tipo:'setter',av:'av-a',ini:'Ms',ventas:0},
+    {id:5,nombre:'David',rol:'Tecnico IA',tipo:'colab',av:'av-d',ini:'D',ventas:0,clientes:2,tarifa:'30% bruto IA'},
+    {id:6,nombre:'Edu',rol:'Filmmaking + Ads',tipo:'colab',av:'av-e',ini:'E',ventas:0,clientes:1,tarifa:'600€/cliente'},
+    {id:7,nombre:'Juan',rol:'Setter',tipo:'setter',av:'av-p',ini:'Ju',ventas:0,clientes:0},
+    {id:8,nombre:'Mario',rol:'Setter / Jefe equipo',tipo:'setter',av:'av-m',ini:'Ma',ventas:0,clientes:0},
+    {id:9,nombre:'Marisol',rol:'Setter / Jefa equipo',tipo:'setter',av:'av-a',ini:'Ms',ventas:0,clientes:0},
   ],
   tareas:[
     {id:1,titulo:'Consultar denominacion LevelUpIA en rmc.es',resp:'Josemi',prio:'alta',estado:'pendiente',fecha:'2025-04-10'},
@@ -468,9 +492,30 @@ let state={
     {id:12,titulo:'Visita concesionario furgonetas',resp:'Pedro',prio:'alta',estado:'pendiente',fecha:'2025-04-12'},
   ],
   pipeline:[
-    {id:1,nombre:'Concesionario furgonetas',sector:'Automocion',valor:1300,fase:'reunion',resp:'Pedro',notas:'Visita fin de semana con dossier'},
+    {id:1,nombre:'Concesionario furgonetas',sector:'Automocion',valor:1300,fase:'reunion',resp:'Pedro',notas:'Visita fin de semana'},
     {id:2,nombre:'Fisio Hector',sector:'Fisioterapia',valor:1200,fase:'cierre',resp:'Adri',notas:'Reunion cierre pendiente'},
     {id:3,nombre:'Ilian fisio',sector:'Fisioterapia',valor:1300,fase:'contacto',resp:'Pedro',notas:'Lead de Pedro'},
+  ],
+  comisiones:[
+    {quien:'Empresa',pct:25,base:'Resto tras David/Edu',aplica:'Siempre'},
+    {quien:'Pedro',pct:13,base:'Resto',aplica:'Toda la facturacion'},
+    {quien:'Josemi',pct:13,base:'Resto',aplica:'Toda la facturacion'},
+    {quien:'Markel',pct:11.5,base:'Resto',aplica:'Toda la facturacion'},
+    {quien:'Adri',pct:11.5,base:'Resto',aplica:'Toda la facturacion'},
+    {quien:'Closer',pct:10,base:'Resto',aplica:'Setup + retencion sus clientes'},
+    {quien:'Setter',pct:10,base:'Resto',aplica:'Setup + retencion sus clientes'},
+    {quien:'Pool / 6',pct:6,base:'Resto',aplica:'Toda la facturacion'},
+    {quien:'David',pct:30,base:'Bruto IA',aplica:'Antes del reparto'},
+    {quien:'Edu',pct:0,base:'600/700€ fijo',aplica:'Mayo-Jun / Jul+'},
+  ],
+  costes:[
+    {concepto:'SS autonomos x4',antes:0,julio:1280},
+    {concepto:'n8n + OpenAI',antes:20,julio:20},
+    {concepto:'ManyChat + CRM',antes:35,julio:35},
+    {concepto:'Workspace + Scraping',antes:68,julio:68},
+    {concepto:'Gestoria',antes:0,julio:125},
+    {concepto:'Anuncios + web',antes:310,julio:310},
+    {concepto:'Imprevistos',antes:50,julio:50},
   ]
 };
 
@@ -479,25 +524,18 @@ function calcIA(precio){
   return{david,resto,emp:resto*0.25,pedro:resto*0.13,josemi:resto*0.13,markel:resto*0.115,adri:resto*0.115,closer:resto*0.10,setter:resto*0.10,pool:resto*0.06};
 }
 
-const TABS={dashboard:'Dashboard',clientes:'Clientes',pipeline:'Pipeline',equipo:'Equipo',comisiones:'Comisiones',tareas:'Tareas',financiero:'Financiero',asistente:'Asistente IA'};
-const BADGES={dashboard:'Vista general',clientes:'Gestion de clientes',pipeline:'Prospectos',equipo:'Estructura del equipo',comisiones:'Estructura y calculadora',tareas:'Lista de tareas',financiero:'Finanzas y proyeccion',asistente:'Modificar CRM con IA'};
-
 function showTab(id,el){
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.getElementById('sec-'+id).classList.add('active');
   if(el)el.classList.add('active');
-  else{document.querySelectorAll('.nav-item').forEach(n=>{if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+id+"'"))n.classList.add('active');});}
   document.getElementById('topbar-title').textContent=TABS[id]||id;
   document.getElementById('topbar-badge').textContent=BADGES[id]||'';
-  renderSection(id);
+  const rs={dashboard:renderDashboard,clientes:renderClientes,pipeline:renderPipeline,equipo:renderEquipo,financiero:renderFinanciero,tareas:renderTareas,comisiones:()=>{calcComision();renderComTabla();}};
+  if(rs[id])rs[id]();
 }
 
-function renderSection(id){
-  const r={dashboard:renderDashboard,clientes:renderClientes,pipeline:renderPipeline,equipo:renderEquipo,financiero:renderFinanciero,tareas:renderTareas,comisiones:calcComision};
-  if(r[id])r[id]();
-}
-
+/* RENDER DASHBOARD */
 function renderDashboard(){
   const activos=state.clientes.filter(c=>c.estado==='activo');
   const ia=activos.filter(c=>c.servicio==='ia');
@@ -505,26 +543,22 @@ function renderDashboard(){
   const factTotal=ia.reduce((s,c)=>s+(RETS[c.escala-1]||0),0)+ads.length*1200;
   const empTotal=ia.reduce((s,c)=>s+calcIA(RETS[c.escala-1]||860).emp,0)+ads.length*600*0.25;
   const pend=state.tareas.filter(t=>t.estado==='pendiente');
+  const costes=state.costes.reduce((s,c)=>s+c.julio,0);
   document.getElementById('dash-metrics').innerHTML=`
     <div class="metric"><div class="metric-label">Clientes activos</div><div class="metric-val purple">${activos.length}</div><div class="metric-sub">${ia.length} IA · ${ads.length} Ads</div></div>
-    <div class="metric"><div class="metric-label">Facturacion/mes</div><div class="metric-val">${fmt(factTotal)}</div><div class="metric-sub">recurrente estimada</div></div>
-    <div class="metric"><div class="metric-label">Empresa retiene</div><div class="metric-val ${empTotal>=1888?'green':'red'}">${fmt(empTotal)}</div><div class="metric-sub">${empTotal>=1888?'Break-even superado':'Faltan '+fmt(1888-empTotal)}</div></div>
+    <div class="metric"><div class="metric-label">Facturacion/mes</div><div class="metric-val">${fmt(factTotal)}</div><div class="metric-sub">recurrente</div></div>
+    <div class="metric"><div class="metric-label">Empresa retiene</div><div class="metric-val ${empTotal>=costes?'green':'red'}">${fmt(empTotal)}</div><div class="metric-sub">${empTotal>=costes?'Break-even OK':'Faltan '+fmt(costes-empTotal)}</div></div>
     <div class="metric"><div class="metric-label">Tareas pendientes</div><div class="metric-val amber">${pend.length}</div><div class="metric-sub">${pend.filter(t=>t.prio==='alta').length} urgentes</div></div>`;
   document.getElementById('dash-clientes').innerHTML=activos.length?activos.map(c=>`
     <div class="row">
       <div class="avatar ${c.servicio==='ia'?'av-p':'av-m'}">${c.nombre[0]}</div>
       <div><div class="row-name">${c.nombre}</div><div class="row-sub">${c.sector}</div></div>
-      <div class="row-right">
-        <span class="badge ${c.servicio==='ia'?'badge-ia':'badge-ads'}">${c.servicio==='ia'?'IA E'+c.escala:'Ads'}</span>
-        <div style="font-size:11px;color:var(--text3);margin-top:3px">${c.fechaInicio}</div>
-      </div>
-    </div>`).join(''):'<div style="color:var(--text3);font-size:13px;padding:.5rem 0">Sin clientes activos</div>';
+      <div class="row-right"><span class="badge ${c.servicio==='ia'?'badge-ia':'badge-ads'}">${c.servicio==='ia'?'IA E'+c.escala:'Ads'}</span><div style="font-size:11px;color:var(--text3);margin-top:3px">${c.fechaInicio}</div></div>
+    </div>`).join(''):'<div style="color:var(--text3);font-size:13px">Sin clientes activos</div>';
   const urgentes=pend.filter(t=>t.prio==='alta').slice(0,5);
   document.getElementById('dash-tareas').innerHTML=urgentes.length?urgentes.map(t=>`
-    <div class="row">
-      <div class="dot dot-alta"></div>
-      <div><div class="row-name" style="font-weight:400;font-size:13px">${t.titulo}</div><div class="row-sub">${t.resp} · ${t.fecha}</div></div>
-    </div>`).join(''):'<div style="color:var(--teal);font-size:13px;padding:.5rem 0">Sin tareas urgentes</div>';
+    <div class="row"><div class="dot dot-alta"></div>
+    <div><div class="row-name" style="font-weight:400;font-size:13px">${t.titulo}</div><div class="row-sub">${t.resp} · ${t.fecha}</div></div></div>`).join(''):'<div style="color:var(--teal);font-size:13px">Sin urgentes</div>';
   document.getElementById('dash-fact').innerHTML=`
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;font-size:13px">
       <div><div style="color:var(--text3);font-size:11px;margin-bottom:4px">IA</div><div style="font-weight:600">${fmt(ia.reduce((s,c)=>s+(RETS[c.escala-1]||0),0))}</div></div>
@@ -533,6 +567,8 @@ function renderDashboard(){
     </div>`;
 }
 
+/* CLIENTES */
+let editCID=null;
 function renderClientes(){
   document.getElementById('cli-count').textContent=state.clientes.length+' clientes · '+state.clientes.filter(c=>c.estado==='activo').length+' activos';
   document.getElementById('lista-clientes').innerHTML=state.clientes.map(c=>`
@@ -542,9 +578,11 @@ function renderClientes(){
           <div class="avatar ${c.servicio==='ia'?'av-p':'av-m'}">${c.nombre[0]}</div>
           <div><div class="card-title">${c.nombre}</div><div style="font-size:12px;color:var(--text2)">${c.sector}</div></div>
         </div>
-        <div style="display:flex;gap:6px">
+        <div style="display:flex;gap:6px;align-items:center">
           <span class="badge ${c.servicio==='ia'?'badge-ia':'badge-ads'}">${c.servicio==='ia'?'IA E'+c.escala:'Ads'}</span>
           <span class="badge badge-${c.estado}">${c.estado}</span>
+          <button class="sm" onclick="editarCliente(${c.id})">Editar</button>
+          <button class="sm danger" onclick="eliminarCliente(${c.id})">Eliminar</button>
         </div>
       </div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:12px">
@@ -558,9 +596,40 @@ function renderClientes(){
       ${c.notas?`<div style="margin-top:10px;font-size:12px;color:var(--text2);border-top:1px solid var(--border);padding-top:10px">${c.notas}</div>`:''}
     </div>`).join('');
 }
+function editarCliente(id){
+  const c=state.clientes.find(c=>c.id===id);if(!c)return;
+  editCID=id;
+  document.getElementById('f-nombre').value=c.nombre;
+  document.getElementById('f-sector').value=c.sector;
+  document.getElementById('f-servicio').value=c.servicio;
+  document.getElementById('f-escala').value=c.escala;
+  document.getElementById('f-estado').value=c.estado;
+  document.getElementById('f-setter').value=c.setter;
+  document.getElementById('f-closer').value=c.closer;
+  document.getElementById('f-cerrado').value=c.cerradoPor;
+  document.getElementById('f-fecha').value=c.fechaInicio||today;
+  document.getElementById('f-notas').value=c.notas||'';
+  document.getElementById('modal-cliente-title').textContent='Editar cliente';
+  document.getElementById('modal-cliente').classList.add('open');
+}
+function eliminarCliente(id){
+  if(!confirm('Eliminar este cliente?'))return;
+  state.clientes=state.clientes.filter(c=>c.id!==id);
+  renderClientes();renderDashboard();
+}
+function guardarCliente(){
+  const nombre=document.getElementById('f-nombre').value.trim();if(!nombre)return;
+  const datos={nombre,sector:document.getElementById('f-sector').value||'—',servicio:document.getElementById('f-servicio').value,escala:parseInt(document.getElementById('f-escala').value),estado:document.getElementById('f-estado').value,fechaInicio:document.getElementById('f-fecha').value||today,setter:document.getElementById('f-setter').value||'—',closer:document.getElementById('f-closer').value||'Adri',cerradoPor:document.getElementById('f-cerrado').value||'Pedro',notas:document.getElementById('f-notas').value};
+  if(editCID){const i=state.clientes.findIndex(c=>c.id===editCID);if(i>=0)state.clientes[i]={...state.clientes[i],...datos};editCID=null;document.getElementById('modal-cliente-title').textContent='Nuevo cliente';}
+  else state.clientes.push({id:Date.now(),...datos});
+  closeModal('cliente');renderClientes();renderDashboard();
+}
 
+/* PIPELINE */
+let editPID=null;
 function renderPipeline(){
   const fases=[{k:'contacto',l:'Contacto',col:'var(--blue)'},{k:'reunion',l:'Reunion',col:'var(--amber)'},{k:'cierre',l:'En cierre',col:'var(--purple)'},{k:'ganado',l:'Ganado',col:'var(--teal)'}];
+  document.getElementById('pip-count').textContent=state.pipeline.length+' prospectos';
   document.getElementById('kanban').innerHTML=fases.map(f=>{
     const items=state.pipeline.filter(p=>p.fase===f.k);
     return`<div class="kanban-col">
@@ -570,96 +639,103 @@ function renderPipeline(){
         <div class="kanban-card-sub">${p.sector}</div>
         ${p.notas?`<div style="font-size:11px;color:var(--text3);margin-top:4px">${p.notas}</div>`:''}
         <div class="kanban-card-footer"><span>${p.resp}</span><span style="color:${f.col};font-family:'DM Mono',monospace">${fmt(p.valor)}</span></div>
+        <div style="display:flex;gap:5px;margin-top:8px">
+          <button class="sm" style="flex:1" onclick="editarPipeline(${p.id})">Editar</button>
+          <button class="sm danger" style="flex:1" onclick="eliminarPipeline(${p.id})">Quitar</button>
+        </div>
       </div>`).join('')}
     </div>`;
   }).join('');
 }
+function editarPipeline(id){
+  const p=state.pipeline.find(p=>p.id===id);if(!p)return;
+  editPID=id;
+  document.getElementById('p-nombre').value=p.nombre;
+  document.getElementById('p-sector').value=p.sector;
+  document.getElementById('p-valor').value=p.valor;
+  document.getElementById('p-fase').value=p.fase;
+  document.getElementById('p-resp').value=p.resp;
+  document.getElementById('p-notas').value=p.notas||'';
+  document.getElementById('modal-pipeline-title').textContent='Editar prospecto';
+  document.getElementById('modal-pipeline').classList.add('open');
+}
+function eliminarPipeline(id){
+  if(!confirm('Eliminar este prospecto?'))return;
+  state.pipeline=state.pipeline.filter(p=>p.id!==id);
+  renderPipeline();
+}
+function guardarPipeline(){
+  const nombre=document.getElementById('p-nombre').value.trim();if(!nombre)return;
+  const datos={nombre,sector:document.getElementById('p-sector').value||'—',valor:parseInt(document.getElementById('p-valor').value)||1300,fase:document.getElementById('p-fase').value,resp:document.getElementById('p-resp').value||'Pedro',notas:document.getElementById('p-notas').value};
+  if(editPID){const i=state.pipeline.findIndex(p=>p.id===editPID);if(i>=0)state.pipeline[i]={...state.pipeline[i],...datos};editPID=null;document.getElementById('modal-pipeline-title').textContent='Nuevo prospecto';}
+  else state.pipeline.push({id:Date.now(),...datos});
+  closeModal('pipeline');renderPipeline();
+}
 
+/* EQUIPO */
+let editEID=null;
+const AVS={socio:['av-p','av-j','av-m','av-a'],setter:['av-m','av-a','av-p'],colab:['av-d','av-e','av-j']};
+function getAv(tipo,nombre){const o=AVS[tipo]||['av-p'];return o[nombre.charCodeAt(0)%o.length];}
+function getIni(n){return n.slice(0,2).toUpperCase();}
 function renderEquipo(){
   const socios=state.equipo.filter(e=>e.tipo==='socio');
   const setters=state.equipo.filter(e=>e.tipo==='setter');
   const colab=state.equipo.filter(e=>e.tipo==='colab');
+  document.getElementById('eq-count').textContent=state.equipo.length+' miembros · '+socios.length+' socios · '+setters.length+' comerciales · '+colab.length+' colaboradores';
+  const btns=(id)=>`<div style="display:flex;gap:5px;margin-top:10px"><button class="sm" style="flex:1" onclick="editarEquipo(${id})">Editar</button><button class="sm danger" style="flex:1" onclick="eliminarEquipo(${id})">Quitar</button></div>`;
   document.getElementById('eq-socios').innerHTML=socios.map(e=>`
-    <div class="team-card">
-      <div class="avatar ${e.av}">${e.ini}</div>
-      <div style="flex:1">
-        <div class="team-name">${e.nombre}</div>
-        <div class="team-role">${e.rol}</div>
-        <div class="team-stat">Participacion: <span>${e.pct}%</span></div>
-        <div class="team-stat">Clientes activos: <span>${e.clientes}</span></div>
-        <div class="team-stat">Ventas totales: <span>${e.ventas}</span></div>
-      </div>
-    </div>`).join('');
+    <div class="team-card"><div class="avatar ${e.av}">${e.ini}</div>
+    <div style="flex:1"><div class="team-name">${e.nombre}</div><div class="team-role">${e.rol}</div>
+    <div class="team-stat">Participacion: <span>${e.pct}%</span></div>
+    <div class="team-stat">Clientes: <span>${e.clientes||0}</span></div>
+    <div class="team-stat">Ventas: <span>${e.ventas||0}</span></div>
+    ${btns(e.id)}</div></div>`).join('');
   document.getElementById('eq-setters').innerHTML=setters.map(e=>`
-    <div class="team-card">
-      <div class="avatar ${e.av}">${e.ini}</div>
-      <div style="flex:1">
-        <div class="team-name">${e.nombre}</div>
-        <div class="team-role">${e.rol}</div>
-        <div class="team-stat">Ventas este mes: <span>${e.ventas}</span></div>
-        <div class="team-stat">% actual: <span style="color:var(--purple)">${e.ventas<=6?'10':e.ventas<=14?'11':'12'}%</span></div>
-        <div class="progress"><div class="progress-fill" style="width:${Math.min(e.ventas/15*100,100)}%"></div></div>
-      </div>
-    </div>`).join('');
+    <div class="team-card"><div class="avatar ${e.av}">${e.ini}</div>
+    <div style="flex:1"><div class="team-name">${e.nombre}</div><div class="team-role">${e.rol}</div>
+    <div class="team-stat">Ventas mes: <span>${e.ventas||0}</span></div>
+    <div class="team-stat">%: <span style="color:var(--purple)">${(e.ventas||0)<=6?'10':(e.ventas||0)<=14?'11':'12'}%</span></div>
+    <div class="progress"><div class="progress-fill" style="width:${Math.min((e.ventas||0)/15*100,100)}%"></div></div>
+    ${btns(e.id)}</div></div>`).join('');
   document.getElementById('eq-colab').innerHTML=colab.map(e=>`
-    <div class="team-card">
-      <div class="avatar ${e.av}">${e.ini}</div>
-      <div style="flex:1">
-        <div class="team-name">${e.nombre}</div>
-        <div class="team-role">${e.rol}</div>
-        <div class="team-stat">Clientes activos: <span>${e.clientes}</span></div>
-        <div class="team-stat">Tarifa: <span>${e.tarifa}</span></div>
-      </div>
-    </div>`).join('');
+    <div class="team-card"><div class="avatar ${e.av}">${e.ini}</div>
+    <div style="flex:1"><div class="team-name">${e.nombre}</div><div class="team-role">${e.rol}</div>
+    <div class="team-stat">Clientes: <span>${e.clientes||0}</span></div>
+    <div class="team-stat">Tarifa: <span>${e.tarifa||'—'}</span></div>
+    ${btns(e.id)}</div></div>`).join('');
+}
+function editarEquipo(id){
+  const e=state.equipo.find(e=>e.id===id);if(!e)return;
+  editEID=id;
+  document.getElementById('e-nombre').value=e.nombre;
+  document.getElementById('e-rol').value=e.rol;
+  document.getElementById('e-tipo').value=e.tipo;
+  document.getElementById('e-pct').value=e.pct||0;
+  document.getElementById('e-tarifa').value=e.tarifa||'';
+  document.getElementById('e-ventas').value=e.ventas||0;
+  document.getElementById('e-clientes').value=e.clientes||0;
+  document.getElementById('modal-equipo-title').textContent='Editar miembro';
+  document.getElementById('modal-equipo').classList.add('open');
+}
+function eliminarEquipo(id){
+  const e=state.equipo.find(e=>e.id===id);if(!e)return;
+  if(!confirm('Quitar a '+e.nombre+' del equipo?'))return;
+  state.equipo=state.equipo.filter(e=>e.id!==id);renderEquipo();
+}
+function guardarEquipo(){
+  const nombre=document.getElementById('e-nombre').value.trim();if(!nombre)return;
+  const tipo=document.getElementById('e-tipo').value;
+  const datos={nombre,rol:document.getElementById('e-rol').value||'—',tipo,pct:parseInt(document.getElementById('e-pct').value)||0,tarifa:document.getElementById('e-tarifa').value||'—',ventas:parseInt(document.getElementById('e-ventas').value)||0,clientes:parseInt(document.getElementById('e-clientes').value)||0,av:getAv(tipo,nombre),ini:getIni(nombre)};
+  if(editEID){const i=state.equipo.findIndex(e=>e.id===editEID);if(i>=0)state.equipo[i]={...state.equipo[i],...datos};editEID=null;document.getElementById('modal-equipo-title').textContent='Nuevo miembro';}
+  else state.equipo.push({id:Date.now(),...datos});
+  closeModal('equipo');renderEquipo();
 }
 
-function renderTareas(){
-  const sorted=[...state.tareas].sort((a,b)=>{const o={alta:0,media:1,baja:2};return o[a.prio]-o[b.prio];});
-  const pend=sorted.filter(t=>t.estado==='pendiente');
-  const done=sorted.filter(t=>t.estado==='completada');
-  document.getElementById('task-count').textContent=pend.length+' pendientes · '+done.length+' completadas';
-  document.getElementById('lista-tareas').innerHTML=
-    sorted.map(t=>`
-    <div class="card" style="padding:.85rem 1.25rem;margin-bottom:8px;opacity:${t.estado==='completada'?.5:1}">
-      <div style="display:flex;align-items:center;gap:12px">
-        <input type="checkbox" ${t.estado==='completada'?'checked':''} onchange="toggleTarea(${t.id})">
-        <div style="flex:1;${t.estado==='completada'?'text-decoration:line-through;color:var(--text3)':''}">
-          <div style="font-size:13px;font-weight:500">${t.titulo}</div>
-          <div style="font-size:11px;color:var(--text3);margin-top:2px">${t.resp} · ${t.fecha}</div>
-        </div>
-        <span class="badge badge-${t.prio}">${t.prio}</span>
-      </div>
-    </div>`).join('');
+/* COMISIONES */
+function renderComTabla(){
+  document.getElementById('com-tabla').innerHTML=state.comisiones.map(c=>`
+    <tr><td>${c.quien}</td><td style="font-family:'DM Mono',monospace;color:var(--purple)">${c.pct?c.pct+'%':c.base}</td><td>${c.base}</td><td>${c.aplica}</td></tr>`).join('');
 }
-
-function renderFinanciero(){
-  const activos=state.clientes.filter(c=>c.estado==='activo');
-  const ia=activos.filter(c=>c.servicio==='ia');
-  const ads=activos.filter(c=>c.servicio==='ads');
-  const fact=ia.reduce((s,c)=>s+(RETS[c.escala-1]||0),0)+ads.length*1200;
-  const emp=ia.reduce((s,c)=>s+calcIA(RETS[c.escala-1]||860).emp,0)+ads.length*600*0.25;
-  const costes=1888;
-  document.getElementById('fin-metrics').innerHTML=`
-    <div class="metric"><div class="metric-label">Facturacion/mes</div><div class="metric-val">${fmt(fact)}</div></div>
-    <div class="metric"><div class="metric-label">Empresa retiene</div><div class="metric-val ${emp>=costes?'green':'red'}">${fmt(emp)}</div></div>
-    <div class="metric"><div class="metric-label">Costes fijos</div><div class="metric-val amber">1.888€</div></div>
-    <div class="metric"><div class="metric-label">Resultado</div><div class="metric-val ${emp-costes>=0?'green':'red'}">${emp-costes>=0?'+':''}${fmt(emp-costes)}</div></div>`;
-  const meses=['Mayo','Junio','Julio','Agosto','Sept','Oct'];
-  document.getElementById('proy-table').innerHTML=`<div class="table-wrap"><table>
-    <thead><tr><th>Mes</th><th>Cli</th><th>Fact</th><th>Empresa</th><th>Resultado</th></tr></thead>
-    <tbody>${meses.map((m,i)=>{
-      const nCli=(i+1)*4;
-      const nRet=i*4;
-      const fIA=nRet*860+2*1300;
-      const fAds=(nCli)*1200;
-      const f=fIA+fAds;
-      const e=f*0.14;
-      const c=i<2?483:1888;
-      const r=e-c;
-      return`<tr><td>${m}</td><td>${nCli}</td><td style="font-family:'DM Mono',monospace">${fmt(f)}</td><td style="font-family:'DM Mono',monospace">${fmt(e)}</td><td style="font-family:'DM Mono',monospace;color:${r>=0?'var(--teal)':'var(--red)'}">${r>=0?'+':''}${fmt(r)}</td></tr>`;
-    }).join('')}</tbody></table></div>`;
-}
-
 function calcComision(){
   const tipo=document.getElementById('calc-tipo')?.value;
   const escala=parseInt(document.getElementById('calc-escala')?.value||1)-1;
@@ -672,7 +748,7 @@ function calcComision(){
   const resto=precio-(david||edu);
   const r={emp:resto*0.25,pedro:resto*0.13,josemi:resto*0.13,markel:resto*0.115,adri:resto*0.115,closer:resto*0.10,setter:resto*0.10,pool:resto*0.06/6};
   document.getElementById('calc-result').innerHTML=`
-    <div style="margin-top:12px;font-size:11px;color:var(--text3);margin-bottom:8px">Precio: ${fmt(precio)} · Resto a repartir: ${fmt(resto)}</div>
+    <div style="margin-top:12px;font-size:11px;color:var(--text3);margin-bottom:8px">Precio: ${fmt(precio)} · Resto: ${fmt(resto)}</div>
     <div class="calc-grid">
       ${david?`<div class="calc-item tecnico"><div class="lbl">David</div><div class="val">${fmt(david)}</div></div>`:''}
       ${edu?`<div class="calc-item tecnico"><div class="lbl">Edu</div><div class="val">${fmt(edu)}</div></div>`:''}
@@ -686,42 +762,132 @@ function calcComision(){
       <div class="calc-item"><div class="lbl">Pool c/u</div><div class="val">${fmt(r.pool)}</div></div>
     </div>`;
 }
+function openComisionModal(){
+  document.getElementById('com-form').innerHTML=state.comisiones.map((c,i)=>`
+    <div style="display:grid;grid-template-columns:1fr 80px 1fr;gap:8px;margin-bottom:8px;align-items:center">
+      <input type="text" value="${c.quien}" id="cm-quien-${i}" placeholder="Quien">
+      <input type="number" value="${c.pct}" id="cm-pct-${i}" placeholder="%" step="0.5" min="0">
+      <input type="text" value="${c.aplica}" id="cm-aplica-${i}" placeholder="Aplica en">
+    </div>`).join('');
+}
+function guardarComisiones(){
+  state.comisiones=state.comisiones.map((c,i)=>({...c,quien:document.getElementById('cm-quien-'+i).value,pct:parseFloat(document.getElementById('cm-pct-'+i).value)||0,aplica:document.getElementById('cm-aplica-'+i).value}));
+  closeModal('comision');renderComTabla();
+}
 
+/* TAREAS */
+let editTID=null;
+function renderTareas(){
+  const sorted=[...state.tareas].sort((a,b)=>({alta:0,media:1,baja:2}[a.prio]-({alta:0,media:1,baja:2}[b.prio])));
+  const pend=sorted.filter(t=>t.estado==='pendiente');
+  document.getElementById('task-count').textContent=pend.length+' pendientes · '+sorted.filter(t=>t.estado==='completada').length+' completadas';
+  document.getElementById('lista-tareas').innerHTML=sorted.map(t=>`
+    <div class="card" style="padding:.85rem 1.25rem;margin-bottom:8px;opacity:${t.estado==='completada'?.5:1}">
+      <div style="display:flex;align-items:center;gap:12px">
+        <input type="checkbox" ${t.estado==='completada'?'checked':''} onchange="toggleTarea(${t.id})">
+        <div style="flex:1;${t.estado==='completada'?'text-decoration:line-through;color:var(--text3)':''}">
+          <div style="font-size:13px;font-weight:500">${t.titulo}</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:2px">${t.resp} · ${t.fecha}</div>
+        </div>
+        <span class="badge badge-${t.prio}">${t.prio}</span>
+        <button class="sm" onclick="editarTarea(${t.id})">Editar</button>
+        <button class="sm danger" onclick="eliminarTarea(${t.id})">Quitar</button>
+      </div>
+    </div>`).join('');
+}
 function toggleTarea(id){
   const t=state.tareas.find(t=>t.id===id);
   if(t)t.estado=t.estado==='completada'?'pendiente':'completada';
-  renderTareas();
-  if(document.getElementById('sec-dashboard').classList.contains('active'))renderDashboard();
+  renderTareas();renderDashboard();
 }
-
-function openModal(type){
-  if(type==='cliente')document.getElementById('f-fecha').value=today;
-  if(type==='tarea')document.getElementById('t-fecha').value=today;
-  document.getElementById('modal-'+type).classList.add('open');
+function editarTarea(id){
+  const t=state.tareas.find(t=>t.id===id);if(!t)return;
+  editTID=id;
+  document.getElementById('t-titulo').value=t.titulo;
+  document.getElementById('t-resp').value=t.resp;
+  document.getElementById('t-prio').value=t.prio;
+  document.getElementById('t-fecha').value=t.fecha;
+  document.getElementById('modal-tarea-title').textContent='Editar tarea';
+  document.getElementById('modal-tarea').classList.add('open');
 }
-function closeModal(type){document.getElementById('modal-'+type).classList.remove('open');}
-
-function guardarCliente(){
-  const nombre=document.getElementById('f-nombre').value.trim();
-  if(!nombre)return;
-  state.clientes.push({id:Date.now(),nombre,sector:document.getElementById('f-sector').value||'—',servicio:document.getElementById('f-servicio').value,escala:parseInt(document.getElementById('f-escala').value),estado:'activo',fechaInicio:document.getElementById('f-fecha').value||today,setter:document.getElementById('f-setter').value||'—',closer:document.getElementById('f-closer').value||'Adri',cerradoPor:document.getElementById('f-cerrado').value||'Pedro',notas:document.getElementById('f-notas').value});
-  closeModal('cliente');renderClientes();renderDashboard();
+function eliminarTarea(id){
+  if(!confirm('Eliminar esta tarea?'))return;
+  state.tareas=state.tareas.filter(t=>t.id!==id);
+  renderTareas();renderDashboard();
 }
-
 function guardarTarea(){
-  const titulo=document.getElementById('t-titulo').value.trim();
-  if(!titulo)return;
-  state.tareas.push({id:Date.now(),titulo,resp:document.getElementById('t-resp').value||'Josemi',prio:document.getElementById('t-prio').value,estado:'pendiente',fecha:document.getElementById('t-fecha').value||today});
+  const titulo=document.getElementById('t-titulo').value.trim();if(!titulo)return;
+  const datos={titulo,resp:document.getElementById('t-resp').value||'Josemi',prio:document.getElementById('t-prio').value,estado:'pendiente',fecha:document.getElementById('t-fecha').value||today};
+  if(editTID){const i=state.tareas.findIndex(t=>t.id===editTID);if(i>=0)state.tareas[i]={...state.tareas[i],...datos};editTID=null;document.getElementById('modal-tarea-title').textContent='Nueva tarea';}
+  else state.tareas.push({id:Date.now(),...datos});
   closeModal('tarea');renderTareas();renderDashboard();
 }
 
-function guardarPipeline(){
-  const nombre=document.getElementById('p-nombre').value.trim();
-  if(!nombre)return;
-  state.pipeline.push({id:Date.now(),nombre,sector:document.getElementById('p-sector').value||'—',valor:parseInt(document.getElementById('p-valor').value)||1300,fase:document.getElementById('p-fase').value,resp:document.getElementById('p-resp').value||'Pedro',notas:document.getElementById('p-notas').value});
-  closeModal('pipeline');renderPipeline();
+/* FINANCIERO */
+function renderFinanciero(){
+  const activos=state.clientes.filter(c=>c.estado==='activo');
+  const ia=activos.filter(c=>c.servicio==='ia');
+  const ads=activos.filter(c=>c.servicio==='ads');
+  const fact=ia.reduce((s,c)=>s+(RETS[c.escala-1]||0),0)+ads.length*1200;
+  const emp=ia.reduce((s,c)=>s+calcIA(RETS[c.escala-1]||860).emp,0)+ads.length*600*0.25;
+  const costes=state.costes.reduce((s,c)=>s+c.julio,0);
+  document.getElementById('fin-metrics').innerHTML=`
+    <div class="metric"><div class="metric-label">Facturacion/mes</div><div class="metric-val">${fmt(fact)}</div></div>
+    <div class="metric"><div class="metric-label">Empresa retiene</div><div class="metric-val ${emp>=costes?'green':'red'}">${fmt(emp)}</div></div>
+    <div class="metric"><div class="metric-label">Costes fijos</div><div class="metric-val amber">${fmt(costes)}</div></div>
+    <div class="metric"><div class="metric-label">Resultado</div><div class="metric-val ${emp-costes>=0?'green':'red'}">${emp-costes>=0?'+':''}${fmt(emp-costes)}</div></div>`;
+  renderCostes();
+  const meses=['Mayo','Junio','Julio','Agosto','Sept','Oct'];
+  const costesAntes=state.costes.reduce((s,c)=>s+c.antes,0);
+  document.getElementById('proy-table').innerHTML=`<div class="table-wrap"><table>
+    <thead><tr><th>Mes</th><th>Cli</th><th>Fact</th><th>Empresa</th><th>Resultado</th></tr></thead>
+    <tbody>${meses.map((m,i)=>{
+      const nCli=(i+1)*4;const f=nCli*1500;const e=f*0.14;const c=i<2?costesAntes:costes;const r=e-c;
+      return`<tr><td>${m}</td><td>${nCli}</td><td style="font-family:'DM Mono',monospace">${fmt(f)}</td><td style="font-family:'DM Mono',monospace">${fmt(e)}</td><td style="font-family:'DM Mono',monospace;color:${r>=0?'var(--teal)':'var(--red)'}">${r>=0?'+':''}${fmt(r)}</td></tr>`;
+    }).join('')}</tbody></table></div>`;
+}
+function renderCostes(){
+  const total_antes=state.costes.reduce((s,c)=>s+c.antes,0);
+  const total_julio=state.costes.reduce((s,c)=>s+c.julio,0);
+  document.getElementById('costes-tabla').innerHTML=`<div class="table-wrap"><table>
+    <thead><tr><th>Concepto</th><th>Antes SL</th><th>Desde julio</th></tr></thead>
+    <tbody>${state.costes.map(c=>`<tr><td>${c.concepto}</td><td style="font-family:'DM Mono',monospace">${c.antes?fmt(c.antes):'—'}</td><td style="font-family:'DM Mono',monospace">${c.julio?fmt(c.julio):'—'}</td></tr>`).join('')}
+    <tr><td style="font-weight:600">Total</td><td style="font-weight:600;color:var(--amber);font-family:'DM Mono',monospace">${fmt(total_antes)}</td><td style="font-weight:600;color:var(--red);font-family:'DM Mono',monospace">${fmt(total_julio)}</td></tr>
+    </tbody></table></div>`;
+}
+function openCostesModal(){
+  document.getElementById('costes-form').innerHTML=state.costes.map((c,i)=>`
+    <div style="display:grid;grid-template-columns:1fr 80px 80px;gap:8px;margin-bottom:8px;align-items:center">
+      <input type="text" value="${c.concepto}" id="co-con-${i}">
+      <input type="number" value="${c.antes}" id="co-ant-${i}" placeholder="Antes">
+      <input type="number" value="${c.julio}" id="co-jul-${i}" placeholder="Julio+">
+    </div>`).join('')+'<button class="sm" onclick="addCoste()" style="margin-top:4px">+ Añadir fila</button>';
+}
+function addCoste(){
+  state.costes.push({concepto:'Nuevo coste',antes:0,julio:0});
+  openCostesModal();
+}
+function guardarCostes(){
+  state.costes=state.costes.map((c,i)=>({concepto:document.getElementById('co-con-'+i).value,antes:parseInt(document.getElementById('co-ant-'+i).value)||0,julio:parseInt(document.getElementById('co-jul-'+i).value)||0}));
+  closeModal('costeFijo');renderFinanciero();renderDashboard();
 }
 
+/* MODAL HELPERS */
+function openModal(type){
+  if(type==='cliente'){editCID=null;['nombre','sector','setter','closer','cerrado','notas'].forEach(f=>document.getElementById('f-'+f).value=f==='setter'?'Pedro':f==='closer'?'Adri':f==='cerrado'?'Pedro':'');document.getElementById('f-fecha').value=today;document.getElementById('f-servicio').value='ia';document.getElementById('f-estado').value='activo';document.getElementById('modal-cliente-title').textContent='Nuevo cliente';}
+  if(type==='tarea'){editTID=null;document.getElementById('t-titulo').value='';document.getElementById('t-resp').value='Josemi';document.getElementById('t-prio').value='media';document.getElementById('t-fecha').value=today;document.getElementById('modal-tarea-title').textContent='Nueva tarea';}
+  if(type==='pipeline'){editPID=null;['nombre','sector','resp','notas'].forEach(f=>document.getElementById('p-'+f).value=f==='resp'?'Pedro':'');document.getElementById('p-valor').value=1300;document.getElementById('p-fase').value='contacto';document.getElementById('modal-pipeline-title').textContent='Nuevo prospecto';}
+  if(type==='equipo'){editEID=null;['nombre','rol','tarifa'].forEach(f=>document.getElementById('e-'+f).value='');['pct','ventas','clientes'].forEach(f=>document.getElementById('e-'+f).value=0);document.getElementById('e-tipo').value='setter';document.getElementById('modal-equipo-title').textContent='Nuevo miembro';}
+  if(type==='comision')openComisionModal();
+  if(type==='costeFijo')openCostesModal();
+  document.getElementById('modal-'+type).classList.add('open');
+}
+function closeModal(type){
+  document.getElementById('modal-'+type).classList.remove('open');
+}
+document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
+
+/* ASISTENTE */
 function enviarChat(){
   const input=document.getElementById('chat-input');
   const msg=input.value.trim();if(!msg)return;
@@ -735,7 +901,6 @@ function enviarChat(){
     msgs.scrollTop=msgs.scrollHeight;
   },350);
 }
-
 function procesarComando(msg){
   const m=msg.toLowerCase();
   if(m.includes('añade cliente')||m.includes('nuevo cliente')){
@@ -762,9 +927,9 @@ function procesarComando(msg){
     const kw=msg.replace(/marca|tarea|como|completada|completar|hecha/gi,'').trim().toLowerCase();
     const t=state.tareas.find(t=>kw&&t.titulo.toLowerCase().includes(kw)&&t.estado==='pendiente');
     if(t){t.estado='completada';renderTareas();renderDashboard();return`Tarea "${t.titulo}" marcada como completada.`;}
-    return`No encontre esa tarea pendiente. Escribe parte del titulo.`;
+    return`No encontre esa tarea pendiente.`;
   }
-  if(m.includes('cambia estado')||m.includes('pausar')||m.includes('pausado')||m.includes('activa')){
+  if(m.includes('cambia estado')||m.includes('pausar')||m.includes('pausado')||m.includes('activar')){
     const est=m.includes('pausad')?'pausado':m.includes('activ')?'activo':'pipeline';
     const kw=msg.replace(/cambia|estado|de|a|pausado|activo|pausar|activar/gi,'').trim().toLowerCase();
     const c=state.clientes.find(c=>kw&&c.nombre.toLowerCase().includes(kw));
@@ -779,20 +944,13 @@ function procesarComando(msg){
     renderPipeline();
     return`Prospecto "${nombre}" añadido al pipeline en fase "${fase}".`;
   }
-  if(m.includes('resumen')||m.includes('cuantos')||m.includes('estado')){
+  if(m.includes('resumen')||m.includes('cuantos')){
     const a=state.clientes.filter(c=>c.estado==='activo');
-    const ia=a.filter(c=>c.servicio==='ia');
-    const ads=a.filter(c=>c.servicio==='ads');
     const pend=state.tareas.filter(t=>t.estado==='pendiente');
-    const fact=ia.reduce((s,c)=>s+(RETS[c.escala-1]||0),0)+ads.length*1200;
-    return`Resumen actual:\n— ${a.length} clientes activos (${ia.length} IA, ${ads.length} Ads)\n— ${fmt(fact)}/mes facturacion recurrente\n— ${pend.length} tareas pendientes (${pend.filter(t=>t.prio==='alta').length} urgentes)\n— ${state.pipeline.length} prospectos en pipeline`;
+    return`Resumen:\n— ${a.length} clientes activos (${a.filter(c=>c.servicio==='ia').length} IA, ${a.filter(c=>c.servicio==='ads').length} Ads)\n— ${state.pipeline.length} prospectos en pipeline\n— ${pend.length} tareas pendientes (${pend.filter(t=>t.prio==='alta').length} urgentes)\n— ${state.equipo.length} miembros en el equipo`;
   }
-  return`No entendi el comando. Puedes decirme:\n— "Añade cliente [nombre], [sector], IA escala [1-4], cerrado por [persona]"\n— "Nueva tarea: [titulo], responsable [persona], urgente/media/baja"\n— "Marca tarea [titulo] como completada"\n— "Cambia estado de [cliente] a pausado/activo"\n— "Añade prospecto [nombre], fase reunion/cierre"\n— "Resumen"`;
+  return`No entendi. Puedes decirme:\n— "Añade cliente [nombre], [sector], IA escala [1-4], cerrado por [persona]"\n— "Nueva tarea: [titulo], responsable [persona], urgente/media/baja"\n— "Marca tarea [titulo] como completada"\n— "Cambia estado de [cliente] a pausado/activo"\n— "Añade prospecto [nombre], fase reunion/cierre"\n— "Resumen"`;
 }
-
-document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
-renderDashboard();
-calcComision();
 </script>
 </body>
 </html>
